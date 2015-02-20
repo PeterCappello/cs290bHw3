@@ -23,7 +23,7 @@
  */
 package clients;
 
-import api.Result;
+import system.Return;
 import api.Space;
 import api.Task;
 import java.awt.Color;
@@ -70,18 +70,18 @@ public class ClientEuclideanTsp extends Client<List<Integer>>
     public static void main( String[] args ) throws Exception
     {
         System.setSecurityManager( new SecurityManager() );
-        final Client client = new ClientEuclideanTsp();
+        final ClientEuclideanTsp client = new ClientEuclideanTsp();
         client.begin();
         Space space = client.getSpace( 2 );
         List<Task> tasks = client.decompose();
         for (Task task : tasks) space.put( task );
         
-        // compose solution from collected Result objects.
+        // compose solution from collected Return objects.
         List<Integer> shortestTour = new LinkedList<>();
         double shortestTourDistance = Double.MAX_VALUE;
         for (Task task : tasks) 
         {
-            Result<List<Integer>> result = space.take();
+            Return<List<Integer>> result = space.take();
             Logger.getLogger( ClientEuclideanTsp.class.getCanonicalName() ).log(Level.INFO, "Task time: {0} ms.", result.getTaskRunTime() );
             double tourDistance = TaskEuclideanTsp.tourDistance( CITIES, result.getTaskReturnValue() );
             if ( tourDistance < shortestTourDistance )
@@ -96,7 +96,6 @@ public class ClientEuclideanTsp extends Client<List<Integer>>
         client.end();
     }
     
-    @Override
     public List<Task> decompose()
     {
         final List<Task> tasks = new LinkedList<>();

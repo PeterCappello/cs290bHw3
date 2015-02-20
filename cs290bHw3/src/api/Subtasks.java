@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2015 Peter Cappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,22 @@
  */
 package api;
 
-import system.Return;
-import java.rmi.RemoteException;
-
 /**
  *
  * @author Peter Cappello
  */
-public interface Computer
-{        
-    public Return execute( Task task ) throws RemoteException;
+public class Subtasks 
+{
+    final private TaskCompose compose;
+    final private Task[] tasks;
     
-    public void exit() throws RemoteException;
+    public Subtasks( TaskCompose compose, Task[] tasks )
+    {
+        this.compose = compose;
+        this.tasks = tasks;
+    }
+    
+    public TaskCompose compose() { return compose; }
+    
+    public Task[] tasks() { return tasks; }
 }

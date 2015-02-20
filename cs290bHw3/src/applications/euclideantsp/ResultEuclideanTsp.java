@@ -4,18 +4,18 @@
  */
 package applications.euclideantsp;
 
-import api.Result;
+import system.Return;
 import java.util.List;
 
 /**
  *
  * @author Peter Cappello
  */
-public class ResultEuclideanTsp extends Result<List<Integer>>
+public class ResultEuclideanTsp extends Return<List<Integer>>
 {
 
     /**
-     * Result container for TaskEuclideanTsp.
+     * Return container for TaskEuclideanTsp.
      * @param taskReturnValue
      * @param taskRunTime
      */

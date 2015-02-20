@@ -22,15 +22,31 @@
  * THE SOFTWARE.
  */
 package api;
+import system.Return;
 import java.rmi.Remote;
 import java.util.concurrent.Callable;
+import system.Computer2Space;
 
 /**
  *
  * @author Peter Cappello
- * @param <V> the task return type.
  */
-public interface Task<V> extends Remote, Callable<V> 
+abstract public class Task implements Remote, Callable<Return> 
 { 
-    V call(); 
+    private int id;
+    private int composeId;
+    private int composeArgNum;
+    protected Computer2Space space;
+    
+    @Override
+    abstract public Return call(); 
+        
+    public int  id() { return id; }
+    public void id( int id ) { this.id = id; }
+    
+    public int  composeArgNum() { return composeArgNum; }
+    public void composeArgNum( int composeArgNum ) { this.composeArgNum = composeArgNum; }
+    
+    public int  composeId() { return composeId; }
+    public void composeId( int composeId ) { this.composeId = composeId; }
 }

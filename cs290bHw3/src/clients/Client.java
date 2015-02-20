@@ -24,14 +24,12 @@
 package clients;
 
 import api.Space;
-import api.Task;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -88,6 +86,4 @@ abstract public class Client<T> extends JFrame
     }
     
     abstract JLabel getLabel( T returnValue );
-    
-    abstract List<Task> decompose();
 }

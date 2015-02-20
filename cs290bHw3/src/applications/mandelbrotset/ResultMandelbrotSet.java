@@ -4,13 +4,13 @@
  */
 package applications.mandelbrotset;
 
-import api.Result;
+import system.Return;
 
 /**
- * Result container for TaskMandelbrotSet.
+ * Return container for TaskMandelbrotSet.
  * @author peter
  */
-public class ResultMandelbrotSet extends Result<ResultValueMandelbrotSet>
+public class ResultMandelbrotSet extends Return<ResultValueMandelbrotSet>
 {
     public ResultMandelbrotSet( ResultValueMandelbrotSet taskReturnValue, long taskRunTime ) 
     {

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 package clients;
-import api.Result;
+import system.Return;
 import api.Space;
 import api.Task;
 import applications.mandelbrotset.ResultValueMandelbrotSet;
@@ -75,7 +75,7 @@ public class ClientMandelbrotSet extends Client<Integer[][]>
         Integer[][] counts = new Integer[N_PIXELS][N_PIXELS];
         for (Task task : tasks) 
         {
-            final Result<ResultValueMandelbrotSet> result = ( Result<ResultValueMandelbrotSet> ) space.take();
+            final Return<ResultValueMandelbrotSet> result = ( Return<ResultValueMandelbrotSet> ) space.take();
             final ResultValueMandelbrotSet resultValue = result.getTaskReturnValue();
             
             // copy blockCounts into counts array

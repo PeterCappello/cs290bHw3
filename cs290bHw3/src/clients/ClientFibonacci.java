@@ -21,18 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package api;
+package clients;
 
-import system.Return;
+import api.ReturnValue;
+import api.Space;
+import api.Task;
+import applications.fibonacci.TaskFibonacci;
 import java.rmi.RemoteException;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  *
  * @author Peter Cappello
  */
-public interface Computer
-{        
-    public Return execute( Task task ) throws RemoteException;
+public class ClientFibonacci extends Client<Integer>
+{
+    private static final int N = 7;
     
-    public void exit() throws RemoteException;
+    public ClientFibonacci() throws RemoteException { super( "Fibonacci Number" ); }
+
+    @Override
+    JLabel getLabel( Integer returnValue ) 
+    {
+        return new JLabel( "The " + N +  "th Fibonacci number is " + returnValue, SwingConstants.CENTER) ;
+    }
+    
+    public static void main( String[] args ) throws Exception
+    {  
+        System.setSecurityManager( new SecurityManager() );
+        final ClientFibonacci client = new ClientFibonacci();
+        client.begin();
+        Space space = client.getSpace( 1 );
+        Task task = new TaskFibonacci( N );
+        ReturnValue<Integer> result = ( ReturnValue<Integer> ) space.compute( task );
+        client.add( client.getLabel( result.value() ) );
+        client.end();
+    }
 }
