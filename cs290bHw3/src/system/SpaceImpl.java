@@ -45,9 +45,9 @@ import java.util.logging.Logger;
  */
 public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Space
 {
-    final static public  int FINAL_RETURN_VALUE = -1;
-          static private int computerIds = 0;
-    private final AtomicInteger taskIds = new AtomicInteger();
+    static final public int FINAL_RETURN_VALUE = -1;
+    static final private AtomicInteger computerIds = new AtomicInteger();
+           final private AtomicInteger taskIds     = new AtomicInteger();
     
     private final BlockingQueue<Task>   readyTaskQ   = new LinkedBlockingQueue<>();
     private final BlockingQueue<Return> resultQ      = new LinkedBlockingQueue<>();
@@ -159,7 +159,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     private class ComputerProxy extends Thread implements Computer 
     {
         final private Computer computer;
-        final private int computerId = computerIds++;
+        final private int computerId = computerIds.getAndIncrement();
 
         ComputerProxy( Computer computer ) { this.computer = computer; }
 
