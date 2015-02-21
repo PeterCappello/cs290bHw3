@@ -37,7 +37,7 @@ import javax.swing.SwingConstants;
  */
 public class ClientFibonacci extends Client<Integer>
 {
-    private static final int N = 7;
+    private static final int N = 10; // F(10) = 55
     
     public ClientFibonacci() throws RemoteException { super( "Fibonacci Number" ); }
 
