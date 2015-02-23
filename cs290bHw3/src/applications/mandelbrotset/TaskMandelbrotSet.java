@@ -22,14 +22,28 @@
  * THE SOFTWARE.
  */
 package applications.mandelbrotset;
+import api.ReturnSubtasks;
+import api.ReturnValue;
 import api.Task;
+import api.TaskCompose;
+import api.TaskRecursive;
+import static clients.ClientMandelbrotSet.BLOCK_SIZE;
+import static clients.ClientMandelbrotSet.EDGE_LENGTH;
+import static clients.ClientMandelbrotSet.ITERATION_LIMIT;
+import static clients.ClientMandelbrotSet.LOWER_LEFT_X;
+import static clients.ClientMandelbrotSet.LOWER_LEFT_Y;
+import static clients.ClientMandelbrotSet.N_PIXELS;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author Peter Cappello
  */
-public class TaskMandelbrotSet implements Task<ResultValueMandelbrotSet>
+public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
 {
+    static final private int MAX_NUM_PIXELS = 256;
+    
     final private double lowerLeftX;
     final private double lowerLeftY;
     final private double edgeLength;
@@ -49,13 +63,11 @@ public class TaskMandelbrotSet implements Task<ResultValueMandelbrotSet>
         this.blockCol = blockCol;
     }
     
-    /**
-     * 
-     * @return an Integer[row][col] array of iteration counts, where row and
-     * col correspond to regions in the complex plane.
-     */
     @Override
-    public ResultValueMandelbrotSet call() 
+    public boolean isAtomic() { return MAX_NUM_PIXELS < numPixels; }
+
+    @Override
+    public ReturnValue<IterationCounts> solve() 
     {
         final Integer[][] counts = new Integer[numPixels][numPixels];
         final double delta = edgeLength / numPixels;
@@ -64,7 +76,27 @@ public class TaskMandelbrotSet implements Task<ResultValueMandelbrotSet>
             {
                 counts[row][col] = getIterationCount( row, col, delta );
             }
-        return new ResultValueMandelbrotSet( counts,blockRow, blockCol );
+        return new ReturnValue<>( this, new IterationCounts( counts, 0, 0 ) );
+    }
+
+    @Override
+    public ReturnSubtasks decompose() 
+    {
+        final TaskCompose compose = new AddBlocks();
+        final List<Task> subtasks = new  LinkedList<>();
+        final int numBlocks = N_PIXELS / BLOCK_SIZE;
+        double subTaskEdgeLength = EDGE_LENGTH / numBlocks;
+        for ( int subTaskBlockRow = 0; subTaskBlockRow < numBlocks; subTaskBlockRow++ )
+        {
+            for ( int subTaskBlockCol = 0; subTaskBlockCol < numBlocks; subTaskBlockCol++ )
+            {
+                final double subTaskLowerLeftX = LOWER_LEFT_X + subTaskEdgeLength * subTaskBlockRow;
+                final double subTaskLowerLeftY = LOWER_LEFT_Y + subTaskEdgeLength * subTaskBlockCol ;
+                Task task = new TaskMandelbrotSet( subTaskLowerLeftX, subTaskLowerLeftY, subTaskEdgeLength , BLOCK_SIZE, ITERATION_LIMIT, subTaskBlockRow, subTaskBlockCol );
+                subtasks.add( task );
+            }
+        }
+        return new ReturnSubtasks( compose, subtasks );
     }
     
     @Override

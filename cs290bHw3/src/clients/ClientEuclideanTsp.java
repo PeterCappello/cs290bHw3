@@ -70,22 +70,21 @@ public class ClientEuclideanTsp extends Client<Tour>
     
     public static void main( String[] args ) throws Exception
     {
-        System.setSecurityManager( new SecurityManager() );
-        final ClientEuclideanTsp client = new ClientEuclideanTsp();
-        client.begin();
-        Space space = client.getSpace( 4 );
-        
-        List<Integer> unvisitedCities = new ArrayList<>();
-        for ( int i =0; i < CITIES.length; i++ )
+        final List<Integer> unvisitedCities = new ArrayList<>();
+        for ( int city = 0; city < CITIES.length; city++ )
         {
-            unvisitedCities.add( i );
+            unvisitedCities.add( city );
         }
-        Task task = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities );
-        ReturnValue<Tour> result = ( ReturnValue<Tour> ) space.compute( task );
+        final Task task = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities );
+        final ClientEuclideanTsp client = new ClientEuclideanTsp();
+        
+        System.setSecurityManager( new SecurityManager() );
+        client.begin();
+        ReturnValue<Tour> result = ( ReturnValue<Tour> ) client.getSpace( 4 ).compute( task );
         client.add( client.getLabel( result.value() ) );
         client.end();
     }
-      
+    
     @Override
     public JLabel getLabel( final Tour tour )
     {

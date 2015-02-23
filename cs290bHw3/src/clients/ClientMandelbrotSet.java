@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 package clients;
-import system.Return;
-import api.Space;
+import api.ReturnValue;
 import api.Task;
-import applications.mandelbrotset.ResultValueMandelbrotSet;
+import applications.euclideantsp.Tour;
+import applications.mandelbrotset.IterationCounts;
 import applications.mandelbrotset.TaskMandelbrotSet;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -34,16 +34,12 @@ import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Peter Cappello
  */
-public class ClientMandelbrotSet extends Client<Integer[][]>
+public class ClientMandelbrotSet extends Client<IterationCounts>
 {
     public static final double LOWER_LEFT_X = -0.7510975859375;
     public static final double LOWER_LEFT_Y = 0.1315680625;
@@ -64,58 +60,20 @@ public class ClientMandelbrotSet extends Client<Integer[][]>
      */
     public static void main( String[] args ) throws Exception
     {  
-        System.setSecurityManager( new SecurityManager() );
+        final Task task = new TaskMandelbrotSet( LOWER_LEFT_X, LOWER_LEFT_Y, EDGE_LENGTH, N_PIXELS, ITERATION_LIMIT, 0, 0 );
         final Client client = new ClientMandelbrotSet();
+        
+        System.setSecurityManager( new SecurityManager() );
         client.begin();
-        Space space = client.getSpace( 2 );
-        List<Task> tasks = client.decompose();
-        for ( Task task : tasks ) { space.put( task ); }
-        
-        // compose solution from collected results. 
-        Integer[][] counts = new Integer[N_PIXELS][N_PIXELS];
-        for (Task task : tasks) 
-        {
-            final Return<ResultValueMandelbrotSet> result = ( Return<ResultValueMandelbrotSet> ) space.take();
-            final ResultValueMandelbrotSet resultValue = result.getTaskReturnValue();
-            
-            // copy blockCounts into counts array
-            Integer[][] blockCounts = resultValue.counts();
-            int blockRow = resultValue.blockRow();
-            int blockCol = resultValue.blockCol();
-            for ( int row = 0; row < BLOCK_SIZE; row++ )
-            {
-                System.arraycopy( blockCounts[row], 0, counts[blockRow * BLOCK_SIZE + row], blockCol * BLOCK_SIZE, BLOCK_SIZE );
-            }
-            Logger.getLogger( ClientMandelbrotSet.class.getCanonicalName() ).log(Level.INFO, "Task time: {0} ms.", result.getTaskRunTime() );
-        }
-        
-        // display solution
-        client.add( client.getLabel( counts ) );
+        ReturnValue<Tour> result = ( ReturnValue<Tour> ) client.getSpace( 4 ).compute( task );
+        client.add( client.getLabel( result.value() ) );
         client.end();
     }
     
     @Override
-    List<Task> decompose() 
+    public JLabel getLabel( IterationCounts iterationCounts )
     {
-        final List<Task> tasks = new LinkedList<>();
-        final int numBlocks = N_PIXELS / BLOCK_SIZE;
-        double edgeLength = EDGE_LENGTH / numBlocks;
-        for ( int blockRow = 0; blockRow < numBlocks; blockRow++ )
-        {
-            for ( int blockCol = 0; blockCol < numBlocks; blockCol++ )
-            {
-                final double lowerLeftX = LOWER_LEFT_X + edgeLength * blockRow;
-                final double lowerLeftY = LOWER_LEFT_Y + edgeLength * blockCol ;
-                Task task = new TaskMandelbrotSet( lowerLeftX, lowerLeftY, edgeLength , BLOCK_SIZE, ITERATION_LIMIT, blockRow, blockCol );
-                tasks.add( task );
-            }
-        }
-        return tasks;
-    }
-    
-    @Override
-    public JLabel getLabel( Integer[][] counts )
-    {
+        Integer[][] counts =  iterationCounts.counts();
         final Image image = new BufferedImage( N_PIXELS, N_PIXELS, BufferedImage.TYPE_INT_ARGB );
         final Graphics graphics = image.getGraphics();
         for ( int i = 0; i < counts.length; i++ )
