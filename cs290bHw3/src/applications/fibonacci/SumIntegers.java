@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Peter Cappello.
+ * Copyright 2015 peter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package api;
+package applications.fibonacci;
+
+import api.ReturnValue;
+import api.TaskCompose;
 
 /**
  *
  * @author Peter Cappello
  */
-public class Subtasks 
-{
-    final private TaskCompose compose;
-    final private Task[] tasks;
-    
-    public Subtasks( TaskCompose compose, Task[] tasks )
+public class SumIntegers extends TaskCompose<Integer>
+{    
+    @Override
+    public ReturnValue call() 
     {
-        this.compose = compose;
-        this.tasks = tasks;
+        return new ReturnValue<>( this, args().get( 0 ) + args().get( 1 ) );
     }
-    
-    public TaskCompose compose() { return compose; }
-    
-    public Task[] tasks() { return tasks; }
 }

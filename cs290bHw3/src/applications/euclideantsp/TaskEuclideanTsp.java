@@ -23,7 +23,11 @@
  */
 package applications.euclideantsp;
 
+import api.ReturnSubtasks;
+import api.ReturnValue;
 import api.Task;
+import api.TaskCompose;
+import api.TaskRecursive;
 import clients.ClientEuclideanTsp;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,58 +39,47 @@ import util.PermutationEnumerator;
  * followed by city secondCity.
  * @author Peter Cappello
  */
-public class TaskEuclideanTsp implements Task<List<Integer>>
+public class TaskEuclideanTsp extends TaskRecursive<Tour>
 { 
     final static private double[][] CITIES = ClientEuclideanTsp.CITIES;
     final static Integer ONE = 1;
     final static Integer TWO = 2;
+    final static Integer MAX_UNVISITED_CITIES = 10;
     
-    final private int secondCity;
-    final private List<Integer> partialCityList;
-        
-    public TaskEuclideanTsp( int secondCity, List<Integer> partialCityList )
+    final private List<Integer> partialTour;
+    final private List<Integer> unvisitedCities;
+            
+    public TaskEuclideanTsp( List<Integer> partialTour, List<Integer> unvisitedCities )
     {
-        this.secondCity = secondCity;
-        this.partialCityList = partialCityList;
+        this.partialTour = partialTour;
+        this.unvisitedCities = unvisitedCities;
     }
     
+   
+
+    @Override
+    public boolean isAtomic() { return unvisitedCities.size() <= MAX_UNVISITED_CITIES; }
+    
     /**
-     * Produce a tour of minimum cost.
-     * Uses combinatoricslib-2.1 library to generate permutations. 
-     * See https://code.google.com/p/combinatoricslib/.
+     * Produce a tour of minimum cost from the set of tours, having as its
+     * elements each tour consisting of the sequence of cities in partialTour 
+     * followed by a permutation of the unvisitedCities.
      * @return a tour of minimum cost.
      */
     @Override
-    public List<Integer> call() 
+    public ReturnValue solve() 
     {
         // initial value for shortestTour and its distance.
-        List<Integer> shortestTour = addPrefix( new LinkedList<>( partialCityList ) );
+        List<Integer> shortestTour = new ArrayList<>( partialTour );
+        shortestTour.addAll( unvisitedCities );
         double shortestTourDistance = tourDistance( CITIES, shortestTour );
-        
-        // Use Combinatoricslib-2.1 to generate tour suffixes
-//        ICombinatoricsVector<Integer> initialVector = Factory.createVector( partialCityList );
-//        Generator<Integer> generator = Factory.createPermutationGenerator(initialVector);
-//        for ( ICombinatoricsVector<Integer> tourSuffix : generator ) 
-//        {
-//            List<Integer> tour = addPrefix( tourSuffix.getVector() );
-//           if ( tour.indexOf( ONE ) >  tour.indexOf( TWO ) )
-//           {
-//               continue; // skip tour; it is the reverse of another.
-//           }
-//           double tourDistance = tourDistance( CITIES, tour );
-//           if ( tourDistance < shortestTourDistance )
-//            {
-//                shortestTour = tour;
-//                shortestTourDistance = tourDistance;
-//            }
-//        }
-        
+
         // Use my permutation enumerator
-        PermutationEnumerator<Integer> permutationEnumerator = new PermutationEnumerator<>( partialCityList );
+        PermutationEnumerator<Integer> permutationEnumerator = new PermutationEnumerator<>( unvisitedCities );
         for ( List<Integer> subtour = permutationEnumerator.next(); subtour != null; subtour = permutationEnumerator.next() ) 
         {
-            List<Integer> tour = new ArrayList<>( subtour );
-            addPrefix( tour );
+            List<Integer> tour = new ArrayList<>( partialTour );
+            tour.addAll( subtour );
             if ( tour.indexOf( ONE ) >  tour.indexOf( TWO ) )
             {
                 continue; // skip tour; it is the reverse of another.
@@ -98,14 +91,23 @@ public class TaskEuclideanTsp implements Task<List<Integer>>
                 shortestTourDistance = tourDistance;
             }
         }
-        return shortestTour;
+        return new ReturnValue<>( this, new Tour( shortestTour, shortestTourDistance ) );
     }
-    
-    private List<Integer> addPrefix( List<Integer> partialTour )
+
+    @Override
+    public ReturnSubtasks decompose() 
     {
-        partialTour.add( 0, secondCity );
-        partialTour.add( 0, 0 );
-        return partialTour;
+        final TaskCompose compose = new SelectMinTour();
+        final List<Task> subtasks = new  LinkedList<>();
+        for ( Integer unvisitedCity : unvisitedCities )
+        {
+            List<Integer> subtaskPartialTour = new ArrayList<>( partialTour );
+            List<Integer> subtaskUnvisitedCities = new ArrayList<>( unvisitedCities );
+            subtaskUnvisitedCities.remove( unvisitedCity );
+            subtaskPartialTour.add( unvisitedCity ); // extend tour with this city.
+            subtasks.add( new TaskEuclideanTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
+        }
+        return new ReturnSubtasks( compose, subtasks );
     }
     
     @Override
@@ -113,17 +115,20 @@ public class TaskEuclideanTsp implements Task<List<Integer>>
     {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append( getClass() );
-        stringBuilder.append( "\n\tCities: " );
-        stringBuilder.append( 0 ).append( " " );
-        stringBuilder.append( secondCity ).append( " " );
-        partialCityList.stream().forEach(( city ) -> 
+        stringBuilder.append( "\n\tPartial tour: " );
+        partialTour.stream().forEach(( city ) -> 
+        {
+            stringBuilder.append( city ).append( " " );
+        } );
+        stringBuilder.append( "\n\tUnvisited cities: " );
+        unvisitedCities.stream().forEach(( city ) -> 
         {
             stringBuilder.append( city ).append( " " );
         } );
         return stringBuilder.toString();
     }
-
-   public static double tourDistance( final double[][] cities, final List<Integer> tour )
+    
+    public static double tourDistance( final double[][] cities, final List<Integer> tour )
    {
        double cost = 0.0;
        for ( int city = 0; city < tour.size() - 1; city ++ )
@@ -139,4 +144,10 @@ public class TaskEuclideanTsp implements Task<List<Integer>>
        final double deltaY = city1[ 1 ] - city2[ 1 ];
        return Math.sqrt( deltaX * deltaX + deltaY * deltaY );
    }
+    
+//    private List<Integer> addSuffix( List<Integer> partialTour )
+//    {
+//        partialTour.addAll( unvisitedCities );
+//        return partialTour;
+//    }
 }

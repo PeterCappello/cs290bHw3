@@ -23,14 +23,24 @@
  */
 package api;
 
+import java.util.List;
 import system.Return;
 import system.SpaceImpl;
 
 public class ReturnSubtasks extends Return
 {    
-    final private Subtasks subtasks;
+    final private TaskCompose compose;
+    final private List<Task> tasks;
     
-    public ReturnSubtasks( Subtasks subtasks ) { this.subtasks = subtasks; }
+    public ReturnSubtasks( TaskCompose compose, List<Task> tasks )
+    {
+        this.compose = compose;
+        this.tasks = tasks;
+    }
+    
+    public TaskCompose compose() { return compose; }
+    
+    public List<Task> tasks() { return tasks; }
     
     /**
      *
@@ -40,19 +50,17 @@ public class ReturnSubtasks extends Return
     @Override
     public void process( Task parentTask, SpaceImpl space ) 
     {
-        final TaskCompose compose = subtasks.compose();
-        final Task[]      tasks   = subtasks.tasks();
         final int composeId = space.makeTaskId();
         compose.id( composeId );
         compose.composeId( parentTask.composeId() );
         compose.composeArgNum( parentTask.composeArgNum() );
-        compose.numArgs( tasks.length );
+        compose.numArgs( tasks.size() );
         space.putCompose( compose );
 //        System.out.println("ReturnSubtasks.process compose: compose.id(): " + compose.id()
 //                + " compose.composeId(): " + compose.composeId());
-        for ( int i = 0; i < tasks.length; i++  )
+        for ( int i = 0; i < tasks.size(); i++  )
         {
-            Task task = tasks[ i ];
+            Task task = tasks.get( i );
             task.id( space.makeTaskId() );
             task.composeId( composeId );
             task.composeArgNum( i );
@@ -63,6 +71,5 @@ public class ReturnSubtasks extends Return
 //                    + " task: " + task
 //             );
         }
-        
     }
 }

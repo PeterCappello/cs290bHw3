@@ -23,7 +23,7 @@
  */
 package clients;
 
-import system.Return;
+import api.ReturnValue;
 import api.Space;
 import api.Task;
 import java.awt.Color;
@@ -35,7 +35,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import applications.euclideantsp.TaskEuclideanTsp;
-import java.util.LinkedList;
+import applications.euclideantsp.Tour;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +44,7 @@ import java.util.logging.Logger;
  *
  * @author Peter Cappello
  */
-public class ClientEuclideanTsp extends Client<List<Integer>>
+public class ClientEuclideanTsp extends Client<Tour>
 {
     private static final int NUM_PIXALS = 600;
     public static final double[][] CITIES =
@@ -72,53 +73,24 @@ public class ClientEuclideanTsp extends Client<List<Integer>>
         System.setSecurityManager( new SecurityManager() );
         final ClientEuclideanTsp client = new ClientEuclideanTsp();
         client.begin();
-        Space space = client.getSpace( 2 );
-        List<Task> tasks = client.decompose();
-        for (Task task : tasks) space.put( task );
+        Space space = client.getSpace( 4 );
         
-        // compose solution from collected Return objects.
-        List<Integer> shortestTour = new LinkedList<>();
-        double shortestTourDistance = Double.MAX_VALUE;
-        for (Task task : tasks) 
+        List<Integer> unvisitedCities = new ArrayList<>();
+        for ( int i =0; i < CITIES.length; i++ )
         {
-            Return<List<Integer>> result = space.take();
-            Logger.getLogger( ClientEuclideanTsp.class.getCanonicalName() ).log(Level.INFO, "Task time: {0} ms.", result.getTaskRunTime() );
-            double tourDistance = TaskEuclideanTsp.tourDistance( CITIES, result.getTaskReturnValue() );
-            if ( tourDistance < shortestTourDistance )
-            {
-                shortestTour = result.getTaskReturnValue();
-                shortestTourDistance = tourDistance;
-            }
+            unvisitedCities.add( i );
         }
-        
-        // display solution
-        client.add( client.getLabel( shortestTour ) );
+        Task task = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities );
+        ReturnValue<Tour> result = ( ReturnValue<Tour> ) space.compute( task );
+        client.add( client.getLabel( result.value() ) );
         client.end();
     }
-    
-    public List<Task> decompose()
-    {
-        final List<Task> tasks = new LinkedList<>();
-        final List<Integer> integerList = new LinkedList<>();
-        for ( int i = 1; i < CITIES.length; i++ )
-        {
-            integerList.add( i );
-        }
-        for ( int i = 0; i < integerList.size(); i++ )
-        {
-            final List<Integer> partialList = new LinkedList<>( integerList );
-            partialList.remove( i );
-            final Task task = new TaskEuclideanTsp( i + 1, partialList );
-            tasks.add( task );
-        }
-        return tasks;
-    }
-    
+      
     @Override
-    public JLabel getLabel( final List<Integer> cityList )
+    public JLabel getLabel( final Tour tour )
     {
+        List<Integer> cityList = tour.tour();
         Logger.getLogger( ClientEuclideanTsp.class.getCanonicalName() ).log(Level.INFO, tourToString( cityList ) );
-        Integer[] tour = cityList.toArray( new Integer[0] );
 
         // display the graph graphically, as it were
         // get minX, maxX, minY, maxY, assuming they 0.0 <= mins
@@ -153,19 +125,19 @@ public class ClientEuclideanTsp extends Client<List<Integer>>
         // draw edges
         graphics.setColor( Color.BLUE );
         int x1, y1, x2, y2;
-        int city1 = tour[0], city2;
+        int city1 = cityList.get( 0 ), city2;
         x1 = margin + (int) ( scaledCities[city1][0]*field );
         y1 = margin + (int) ( scaledCities[city1][1]*field );
         for ( int i = 1; i < CITIES.length; i++ )
         {
-            city2 = tour[i];
+            city2 = cityList.get( i );
             x2 = margin + (int) ( scaledCities[city2][0]*field );
             y2 = margin + (int) ( scaledCities[city2][1]*field );
             graphics.drawLine( x1, y1, x2, y2 );
             x1 = x2;
             y1 = y2;
         }
-        city2 = tour[0];
+        city2 = cityList.get( 0 );
         x2 = margin + (int) ( scaledCities[city2][0]*field );
         y2 = margin + (int) ( scaledCities[city2][1]*field );
         graphics.drawLine( x1, y1, x2, y2 );

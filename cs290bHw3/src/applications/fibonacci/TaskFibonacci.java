@@ -25,9 +25,10 @@ package applications.fibonacci;
 
 import api.ReturnSubtasks;
 import api.ReturnValue;
-import api.Subtasks;
 import api.Task;
 import api.TaskRecursive;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Compute the nth Fibonacci number.
@@ -55,8 +56,12 @@ public class TaskFibonacci extends TaskRecursive<Integer>
     @Override
     public ReturnSubtasks decompose() 
     {
-        Subtasks subtasks = new Subtasks( new TaskSumIntegers(), new Task[] { new TaskFibonacci( n - 1 ), new TaskFibonacci( n - 2 ) } );
-        return new ReturnSubtasks( subtasks ); 
+//        Subtasks subtasks = new Subtasks( new SumIntegers(), new Task[] { new TaskFibonacci( n - 1 ), new TaskFibonacci( n - 2 ) } );
+        List<Task> subtasks = new ArrayList<>();
+        subtasks.add( new TaskFibonacci( n - 2 ) );
+        subtasks.add( new TaskFibonacci( n - 1 ) );
+        
+        return new ReturnSubtasks( new SumIntegers(), subtasks ); 
     }
     
     @Override

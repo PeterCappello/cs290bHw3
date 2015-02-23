@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2015 Peter Cappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package applications.fibonacci;
+package applications.euclideantsp;
 
 import api.ReturnValue;
 import api.TaskCompose;
@@ -30,11 +30,20 @@ import api.TaskCompose;
  *
  * @author Peter Cappello
  */
-public class TaskSumIntegers extends TaskCompose<Integer>
-{    
+public class SelectMinTour extends TaskCompose<Tour>
+{
     @Override
     public ReturnValue call() 
     {
-        return new ReturnValue<>( this, args().get( 0 ) + args().get( 1 ) );
+        Tour shortestTour = args().remove( 0 );
+        double shortestTourDistance = Double.MAX_VALUE;
+        for (Tour nextTour : args() ) 
+        {
+            if ( nextTour.compareTo( shortestTour ) < 0 )
+            {
+                shortestTour = nextTour;
+            }
+        }
+        return new ReturnValue<>( this, shortestTour );
     }
 }
