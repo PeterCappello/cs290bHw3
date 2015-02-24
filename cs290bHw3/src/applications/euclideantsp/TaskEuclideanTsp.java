@@ -54,8 +54,6 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
         this.unvisitedCities = unvisitedCities;
     }
     
-   
-
     @Override
     public boolean isAtomic() { return unvisitedCities.size() <= MAX_UNVISITED_CITIES; }
     
@@ -142,10 +140,4 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
        final double deltaY = city1[ 1 ] - city2[ 1 ];
        return Math.sqrt( deltaX * deltaX + deltaY * deltaY );
    }
-    
-//    private List<Integer> addSuffix( List<Integer> partialTour )
-//    {
-//        partialTour.addAll( unvisitedCities );
-//        return partialTour;
-//    }
 }

@@ -46,7 +46,7 @@ public class AddBlocks extends TaskCompose<IterationCounts>
             int blockCol = iterationCounts.col();
             for ( int row = 0; row < BLOCK_SIZE; row++ )
             {
-                System.arraycopy( blockCounts[row], 0, counts[blockRow * BLOCK_SIZE + row], blockCol * BLOCK_SIZE, BLOCK_SIZE );
+                System.arraycopy( blockCounts[ row ], 0, counts[ blockRow * BLOCK_SIZE + row ], blockCol * BLOCK_SIZE, BLOCK_SIZE );
             }
         }
         return new ReturnValue<>( this, counts );
