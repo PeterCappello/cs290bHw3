@@ -56,7 +56,6 @@ public class TaskFibonacci extends TaskRecursive<Integer>
     @Override
     public ReturnSubtasks decompose() 
     {
-//        Subtasks subtasks = new Subtasks( new SumIntegers(), new Task[] { new TaskFibonacci( n - 1 ), new TaskFibonacci( n - 2 ) } );
         List<Task> subtasks = new ArrayList<>();
         subtasks.add( new TaskFibonacci( n - 2 ) );
         subtasks.add( new TaskFibonacci( n - 1 ) );

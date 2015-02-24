@@ -24,14 +24,9 @@
 package applications.mandelbrotset;
 
 import api.ReturnValue;
-import api.Task;
 import api.TaskCompose;
-import clients.ClientMandelbrotSet;
 import static clients.ClientMandelbrotSet.BLOCK_SIZE;
 import static clients.ClientMandelbrotSet.N_PIXELS;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import system.Return;
 
 /**
  *

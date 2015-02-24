@@ -25,7 +25,6 @@ package applications.mandelbrotset;
 import api.ReturnSubtasks;
 import api.ReturnValue;
 import api.Task;
-import api.TaskCompose;
 import api.TaskRecursive;
 import static clients.ClientMandelbrotSet.BLOCK_SIZE;
 import static clients.ClientMandelbrotSet.EDGE_LENGTH;
@@ -82,7 +81,6 @@ public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
     @Override
     public ReturnSubtasks decompose() 
     {
-        final TaskCompose compose = new AddBlocks();
         final List<Task> subtasks = new  LinkedList<>();
         final int numBlocks = N_PIXELS / BLOCK_SIZE;
         double subTaskEdgeLength = EDGE_LENGTH / numBlocks;
@@ -96,7 +94,7 @@ public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
                 subtasks.add( task );
             }
         }
-        return new ReturnSubtasks( compose, subtasks );
+        return new ReturnSubtasks( new AddBlocks(), subtasks );
     }
     
     @Override

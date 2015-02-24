@@ -26,7 +26,6 @@ package applications.euclideantsp;
 import api.ReturnSubtasks;
 import api.ReturnValue;
 import api.Task;
-import api.TaskCompose;
 import api.TaskRecursive;
 import clients.ClientEuclideanTsp;
 import java.util.ArrayList;
@@ -97,7 +96,6 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
     @Override
     public ReturnSubtasks decompose() 
     {
-        final TaskCompose compose = new SelectMinTour();
         final List<Task> subtasks = new  LinkedList<>();
         for ( Integer unvisitedCity : unvisitedCities )
         {
@@ -107,7 +105,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
             subtaskPartialTour.add( unvisitedCity ); // extend tour with this city.
             subtasks.add( new TaskEuclideanTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
         }
-        return new ReturnSubtasks( compose, subtasks );
+        return new ReturnSubtasks( new SelectMinTour(), subtasks );
     }
     
     @Override
