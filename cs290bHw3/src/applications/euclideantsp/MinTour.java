@@ -30,18 +30,17 @@ import api.TaskCompose;
  *
  * @author Peter Cappello
  */
-public class SelectMinTour extends TaskCompose<Tour>
+public class MinTour extends TaskCompose<Tour>
 {
     @Override
     public ReturnValue call() 
     {
         Tour shortestTour = args().remove( 0 );
-        double shortestTourDistance = Double.MAX_VALUE;
-        for (Tour nextTour : args() ) 
+        for ( Tour tour : args() ) 
         {
-            if ( nextTour.compareTo( shortestTour ) < 0 )
+            if ( tour.compareTo( shortestTour ) < 0 )
             {
-                shortestTour = nextTour;
+                shortestTour = tour;
             }
         }
         return new ReturnValue<>( this, shortestTour );

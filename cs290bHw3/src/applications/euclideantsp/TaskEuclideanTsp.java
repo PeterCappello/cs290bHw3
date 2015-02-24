@@ -103,7 +103,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
             subtaskPartialTour.add( unvisitedCity ); // extend tour with this city.
             subtasks.add( new TaskEuclideanTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
         }
-        return new ReturnSubtasks( new SelectMinTour(), subtasks );
+        return new ReturnSubtasks( new MinTour(), subtasks );
     }
     
     @Override
