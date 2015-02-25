@@ -63,7 +63,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
      * followed by a permutation of the unvisitedCities.
      * @return a tour of minimum cost.
      */
-    @Override
+     @Override
     public ReturnValue solve() 
     {
         // initial value for shortestTour and its distance.
