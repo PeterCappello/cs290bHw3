@@ -65,7 +65,7 @@ public class ClientMandelbrotSet extends Client<IterationCounts>
         
         System.setSecurityManager( new SecurityManager() );
         client.begin();
-        ReturnValue<Tour> result = ( ReturnValue<Tour> ) client.getSpace( 4 ).compute( task );
+        ReturnValue<Tour> result = ( ReturnValue<Tour> ) client.getSpace( 1 ).compute( task );
         client.add( client.getLabel( result.value() ) );
         client.end();
     }

@@ -36,7 +36,7 @@ abstract public class Task implements Remote, Callable<Return>
     private int id;
     private int composeId;
     private int composeArgNum;
-    protected Computer2Space space;
+//    protected Computer2Space space;
     
     @Override
     abstract public Return call(); 
@@ -49,4 +49,15 @@ abstract public class Task implements Remote, Callable<Return>
     
     public int  composeId() { return composeId; }
     public void composeId( int composeId ) { this.composeId = composeId; }
+    
+    @Override
+    public String toString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( " id: ").append( id );
+        stringBuilder.append( " composeId: ").append( composeId );
+        stringBuilder.append( " composeArgNum: ").append( composeArgNum );
+        stringBuilder.append( ' ' );
+        return stringBuilder.toString();
+    }
 }

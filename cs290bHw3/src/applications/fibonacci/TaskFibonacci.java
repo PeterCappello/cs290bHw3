@@ -67,6 +67,7 @@ public class TaskFibonacci extends TaskRecursive<Integer>
     public String toString()
     {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( super.toString() );
         stringBuilder.append( getClass() );
         stringBuilder.append( ": number: " );
         stringBuilder.append( n );
