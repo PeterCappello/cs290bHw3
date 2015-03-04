@@ -71,7 +71,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     @Override
     public Return compute( Task task )
     {
-        put( task );
+        execute( task );
         return take();
     }
     /**
@@ -79,7 +79,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @param task
      */
     @Override
-    synchronized public void put(Task task) 
+    synchronized public void execute(Task task) 
     { 
         task.id( taskIds.getAndIncrement() );
         task.composeId( FINAL_RETURN_VALUE );
