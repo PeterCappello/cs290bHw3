@@ -75,6 +75,6 @@ public class ComputerImpl extends UnicastRemoteObject implements Computer
     @Override
     public void exit() throws RemoteException 
     { 
-        System.out.println("Computer # tasks complete:" + numTasks ); /*System.exit( 0 ); */ 
+        System.out.println("Computer.exit: # tasks complete:" + numTasks ); /*System.exit( 0 ); */ 
     }
 }

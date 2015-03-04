@@ -44,12 +44,6 @@ public class ReturnValue<T> extends Return
         composeId = task.composeId();
         composeArgNum = task.composeArgNum();
         this.value = value; 
-//        System.out.println("ReturnValue.constructor: " 
-//            + " taskId: " + task.id()
-//            + " composeId: " + composeId
-//            + " composeArgNum: " + composeArgNum
-//            + " value: " + value
-//        );
     }
     
     public T value() { return value; }
@@ -75,16 +69,14 @@ public class ReturnValue<T> extends Return
         }
         else
         {
-//            System.out.println("ReturnValue.process: updating compose: "
-//                    + " composeId: " + composeId
-//                    + " composeArgNum: " + composeArgNum
-//                    + " value: " + value
-//            );
-            compose.arg( composeArgNum, value );
-            if ( compose.isReady() )
+            synchronized ( space )
             {
-                space.putReadyTask( compose );
-                space.removeWaitingTask( composeId );
+                compose.arg( composeArgNum, value );
+                if ( compose.isReady() )
+                {
+                    space.putReadyTask( compose );
+                    space.removeWaitingTask( composeId );
+                }
             }
         }
     }

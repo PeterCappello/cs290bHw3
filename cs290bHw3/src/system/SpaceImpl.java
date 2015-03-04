@@ -83,7 +83,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     { 
         task.id( taskIds.getAndIncrement() );
         task.composeId( FINAL_RETURN_VALUE );
-        readyTaskQ.add( task ); 
+        readyTaskQ.add( task );
     }
 
     /**
@@ -91,7 +91,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @return a Return object.
      */
     @Override
-    synchronized public Return take() 
+    public Return take() 
     {
         try 
         {
@@ -119,7 +119,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @throws RemoteException
      */
     @Override
-    synchronized public void register( Computer computer ) throws RemoteException 
+    public void register( Computer computer ) throws RemoteException 
     {
         final ComputerProxy computerproxy = new ComputerProxy( computer );
         computerProxies.put( computer, computerproxy );
