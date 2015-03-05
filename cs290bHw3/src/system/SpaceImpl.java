@@ -81,7 +81,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     @Override
     synchronized public void execute(Task task) 
     { 
-        task.id( taskIds.getAndIncrement() );
+        task.id( makeTaskId() );
         task.composeId( FINAL_RETURN_VALUE );
         readyTaskQ.add( task );
     }
