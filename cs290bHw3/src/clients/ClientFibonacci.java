@@ -23,8 +23,6 @@
  */
 package clients;
 
-import api.ReturnValue;
-import api.Space;
 import api.Task;
 import applications.fibonacci.TaskFibonacci;
 import java.rmi.RemoteException;
@@ -37,25 +35,22 @@ import javax.swing.SwingConstants;
  */
 public class ClientFibonacci extends Client<Integer>
 {
-    private static final int N = 16; // F(16) = 987
+    // configure application
+    static private final int N = 16; // F(16) = 987
+    static private  final int NUM_COMPUTERS = 2;
+    static private  final Task TASK = new TaskFibonacci( N );
+    static private  Client client() throws RemoteException { return new ClientFibonacci(); }
     
     public ClientFibonacci() throws RemoteException { super( "Fibonacci Number" ); }
 
+    public static void main( String[] args ) throws Exception
+    {  
+        Client.runClient( client(), NUM_COMPUTERS, TASK );
+    }
+    
     @Override
     JLabel getLabel( Integer returnValue ) 
     {
         return new JLabel( "The " + N +  "th Fibonacci number is " + returnValue, SwingConstants.CENTER) ;
-    }
-    
-    public static void main( String[] args ) throws Exception
-    {  
-        System.setSecurityManager( new SecurityManager() );
-        final ClientFibonacci client = new ClientFibonacci();
-        client.begin();
-        Space space = client.getSpace( 4 );
-        Task task = new TaskFibonacci( N );
-        ReturnValue<Integer> result = ( ReturnValue<Integer> ) space.compute( task );
-        client.add( client.getLabel( result.value() ) );
-        client.end();
     }
 }
