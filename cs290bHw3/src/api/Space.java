@@ -23,9 +23,11 @@
  */
 package api;
 
+import system.Computer;
 import system.Return;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
@@ -44,8 +46,10 @@ public interface Space extends Remote
      * @throws RemoteException
      */
     void execute( Task task ) throws RemoteException;
+    
+    void putAll ( List<Task> taskList ) throws RemoteException;
+    
+    void register( Computer computer ) throws RemoteException;
 
     Return take() throws RemoteException;
-
-    void exit() throws RemoteException;
 }

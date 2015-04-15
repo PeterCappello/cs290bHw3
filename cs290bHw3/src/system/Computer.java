@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package api;
+package system;
 
+import api.Task;
 import java.rmi.Remote;
 import system.Return;
 import java.rmi.RemoteException;

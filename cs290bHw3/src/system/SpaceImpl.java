@@ -23,7 +23,6 @@
  */
 package system;
 
-import api.Computer;
 import api.Space;
 import api.Task;
 import api.TaskCompose;
@@ -32,6 +31,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.BlockingQueue;
@@ -85,6 +85,15 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         task.composeId( FINAL_RETURN_VALUE );
         readyTaskQ.add( task );
     }
+    
+    @Override
+    synchronized public void putAll( List<Task> taskList )
+    {
+        for ( Task task : taskList )
+        {
+            readyTaskQ.add( task );
+        }
+    }
 
     /**
      * Take a Return from the Return queue.
@@ -105,12 +114,12 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         return null;
     }
 
-    @Override
-    public void exit() throws RemoteException 
-    {
-        computerProxies.values().forEach( proxy -> proxy.exit() );
-        System.exit( 0 );
-    }
+//    @Override
+//    public void exit() throws RemoteException 
+//    {
+//        computerProxies.values().forEach( proxy -> proxy.exit() );
+//        System.exit( 0 );
+//    }
 
     /**
      * Register Computer with Space.  

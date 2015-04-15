@@ -40,7 +40,22 @@ import util.PermutationEnumerator;
  */
 public class TaskEuclideanTsp extends TaskRecursive<Tour>
 { 
-    final static private double[][] CITIES = ClientEuclideanTsp.CITIES;
+    static final public double[][] CITIES =
+    {
+	{ 1, 1 },
+	{ 8, 1 },
+	{ 8, 8 },
+	{ 1, 8 },
+	{ 2, 2 },
+	{ 7, 2 },
+	{ 7, 7 },
+	{ 2, 7 },
+	{ 3, 3 },
+	{ 6, 3 },
+	{ 6, 6 },
+	{ 3, 6 }
+    };
+    static final public double[][] DISTANCES = initializeDistances();
     final static Integer ONE = 1;
     final static Integer TWO = 2;
     final static Integer MAX_UNVISITED_CITIES = 10;
@@ -140,4 +155,15 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
        final double deltaY = city1[ 1 ] - city2[ 1 ];
        return Math.sqrt( deltaX * deltaX + deltaY * deltaY );
    }
+   
+   static private double[][] initializeDistances()
+    {
+        double[][] distances = new double[ CITIES.length][ CITIES.length];
+        for ( int i = 0; i < CITIES.length; i++ )
+        for ( int j = 0; j < i; j++ )
+        {
+            distances[ i ][ j ] = distances[ j ][ i ] = distance( CITIES[ i ], CITIES[ j ] );
+        }
+       return distances;
+    }
 }
