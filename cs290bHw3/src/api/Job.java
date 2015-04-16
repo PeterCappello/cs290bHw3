@@ -43,7 +43,7 @@ public interface Job<T>
      */
     void compose( Space space ) throws RemoteException;
     
-    T getValue();
+    T value();
     
     abstract JLabel viewResult( final T returnValue );
     

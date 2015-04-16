@@ -26,7 +26,6 @@ package applications.euclideantsp;
 import api.Job;
 import api.JobRunner;
 import api.ReturnValue;
-//import api.Result;
 import api.Space;
 import api.Task;
 import java.awt.Color;
@@ -49,23 +48,21 @@ public class JobEuclideanTsp implements Job<Tour>
 {
     static final private int NUM_PIXALS = 600;
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
-    
-    private List<Task> taskList;
-    private Tour tour;
     private ReturnValue<Tour> result;
-    
-    private Task task;
-    
+        
     public JobEuclideanTsp() {}
     
     @Override
-    public List<Task> decompose( Space space ) throws RemoteException { return null;}
+    public List<Task> decompose( Space space ) throws RemoteException { return null; }
 
     @Override
     public void compose( Space space ) throws RemoteException {}
 
     @Override
-    public Tour getValue() { return result.value(); }//tour; }
+    public Tour value() { return result.value(); }
+    
+    @Override
+    public void result( ReturnValue result ) { this.result = result; }
 
     @Override
     public JLabel viewResult( Tour cityList ) 
@@ -154,7 +151,4 @@ public class JobEuclideanTsp implements Job<Tour>
         }
         return unvisitedCities;
     }
-
-    @Override
-    public void result( ReturnValue result ) { this.result = result; }
 }

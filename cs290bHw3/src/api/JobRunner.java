@@ -41,7 +41,7 @@ import system.SpaceImpl;
 /**
  *
  * @author Peter Cappello
- * @param <T> type if value returned by getValue.
+ * @param <T> type if value returned by value.
  */
 public class JobRunner<T> extends JFrame
 {
@@ -79,7 +79,7 @@ public class JobRunner<T> extends JFrame
         try { job.compose( space ); }
         catch( RemoteException exception ) { throw exception; }
         
-        view( job.viewResult( job.getValue() ) );
+        view(job.viewResult(job.value() ) );
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
                 ( System.nanoTime() - startTime) / 1000000 );
     }
@@ -87,7 +87,7 @@ public class JobRunner<T> extends JFrame
     public void run( Task task ) throws RemoteException
     {
         job.result( ( ReturnValue<Integer> ) space.compute( task ) );
-        view( job.viewResult( job.getValue() ) );
+        view(job.viewResult(job.value() ) );
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
                 ( System.nanoTime() - startTime) / 1000000 );
     }
