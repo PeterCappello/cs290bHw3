@@ -35,7 +35,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,36 +52,20 @@ public class JobEuclideanTsp implements Job<Tour>
     
     private List<Task> taskList;
     private Tour tour;
+    private ReturnValue<Tour> result;
     
     private Task task;
     
     public JobEuclideanTsp() {}
     
     @Override
-    public List<Task> decompose( Space space ) throws RemoteException
-    {
-        taskList = new LinkedList<>();
-        final List<Integer> integerList = new LinkedList<>();
-        for ( int i = 1; i < TaskEuclideanTsp.CITIES.length; i++ )
-        {
-            integerList.add( i );
-        }
-        
-//        Task task = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() );  // !! restore after debug complete
-        task = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() );
-        //taskList.add( task );
-        return taskList;
-    }
+    public List<Task> decompose( Space space ) throws RemoteException { return null;}
 
     @Override
-    public void compose( Space space ) throws RemoteException 
-    {
-        ReturnValue<Tour> result = ( ReturnValue<Tour> ) space.compute( task );
-        tour = result.value();
-    }
+    public void compose( Space space ) throws RemoteException {}
 
     @Override
-    public Tour getValue() { return tour; }
+    public Tour getValue() { return result.value(); }//tour; }
 
     @Override
     public JLabel viewResult( Tour cityList ) 
@@ -159,7 +142,7 @@ public class JobEuclideanTsp implements Job<Tour>
     {
         final JobEuclideanTsp job = new JobEuclideanTsp();
         final JobRunner jobRunner = new JobRunner( job, "Euclidean TSP", "" );
-        jobRunner.run();
+        jobRunner.run( new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() ) );
     }
     
     static private List<Integer> unvisitedCities()
@@ -171,4 +154,7 @@ public class JobEuclideanTsp implements Job<Tour>
         }
         return unvisitedCities;
     }
+
+    @Override
+    public void result( ReturnValue result ) { this.result = result; }
 }

@@ -46,4 +46,7 @@ public interface Job<T>
     T getValue();
     
     abstract JLabel viewResult( final T returnValue );
+    
+    // !! Fix this.
+    abstract void result( ReturnValue result );
 }

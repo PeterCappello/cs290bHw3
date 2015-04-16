@@ -23,6 +23,7 @@
  */
 package api;
 
+import applications.euclideantsp.Tour;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.net.MalformedURLException;
@@ -81,7 +82,14 @@ public class JobRunner<T> extends JFrame
         view( job.viewResult( job.getValue() ) );
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
                 ( System.nanoTime() - startTime) / 1000000 );
-
+    }
+    
+    public void run( Task task ) throws RemoteException
+    {
+        job.result( ( ReturnValue<Integer> ) space.compute( task ) );
+        view( job.viewResult( job.getValue() ) );
+        Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
+                ( System.nanoTime() - startTime) / 1000000 );
     }
     
     private void view( final JLabel jLabel )
