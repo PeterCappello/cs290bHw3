@@ -35,7 +35,6 @@ abstract public class Task implements Serializable, Callable<Return>
     private int id;
     private int composeId;
     private int composeArgNum;
-//    protected Computer2Space space;
     
     @Override
     abstract public Return call(); 

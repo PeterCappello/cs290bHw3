@@ -51,6 +51,6 @@ public class ClientFibonacci extends Client<Integer>
     @Override
     JLabel getLabel( Integer returnValue ) 
     {
-        return new JLabel( "The " + N +  "th Fibonacci number is " + returnValue, SwingConstants.CENTER) ;
+        return new JLabel( "    The " + N +  "th Fibonacci number is " + returnValue + "    ", SwingConstants.CENTER) ;
     }
 }
