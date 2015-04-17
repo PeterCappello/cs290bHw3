@@ -37,9 +37,9 @@ public class ClientFibonacci extends Client<Integer>
 {
     // configure application
     static private final int N = 16; // F(16) = 987
-    static private  final int NUM_COMPUTERS = 2;
-    static private  final Task TASK = new TaskFibonacci( N );
-    static private  Client client() throws RemoteException { return new ClientFibonacci(); }
+    static private final int NUM_COMPUTERS = 2;
+    static private final Task TASK = new TaskFibonacci( N );
+    static private       Client client() throws RemoteException { return new ClientFibonacci(); }
     
     public ClientFibonacci() throws RemoteException { super( "Fibonacci Number" ); }
 
