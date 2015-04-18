@@ -33,11 +33,11 @@ import system.Return;
 abstract public class TaskRecursive<T> extends Task
 {    
     @Override
-    public Return call() { return isAtomic() ? solve() : decompose(); }
+    public Return call() { return isAtomic() ? solve() : divideAndConquer(); }
     
     abstract public boolean isAtomic();
     
     abstract public ReturnValue<T> solve();
     
-    abstract public ReturnSubtasks decompose();
+    abstract public ReturnSubtasks divideAndConquer();
 }

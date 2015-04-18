@@ -107,7 +107,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
     }
 
     @Override
-    public ReturnSubtasks decompose() 
+    public ReturnSubtasks divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
         for ( Integer unvisitedCity : unvisitedCities )

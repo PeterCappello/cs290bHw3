@@ -54,7 +54,7 @@ public class TaskFibonacci extends TaskRecursive<Integer>
     public ReturnValue<Integer> solve() { return new ReturnValue<>( this, n ); }
 
     @Override
-    public ReturnSubtasks decompose() 
+    public ReturnSubtasks divideAndConquer() 
     {
         List<Task> subtasks = new ArrayList<>();
         subtasks.add( new TaskFibonacci( n - 2 ) );

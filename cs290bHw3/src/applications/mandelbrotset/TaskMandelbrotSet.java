@@ -79,7 +79,7 @@ public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
     }
 
     @Override
-    public ReturnSubtasks decompose() 
+    public ReturnSubtasks divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
         final int numBlocks = N_PIXELS / BLOCK_SIZE;
