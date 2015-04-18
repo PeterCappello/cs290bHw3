@@ -84,7 +84,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
         // initial value for shortestTour and its distance.
         List<Integer> shortestTour = new ArrayList<>( partialTour );
         shortestTour.addAll( unvisitedCities );
-        double shortestTourDistance = tourDistance( CITIES, shortestTour );
+        double shortestTourDistance = tourDistance( shortestTour );
 
         // Use my permutation enumerator
         PermutationEnumerator<Integer> permutationEnumerator = new PermutationEnumerator<>( unvisitedCities );
@@ -96,7 +96,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
             {
                 continue; // skip tour; it is the reverse of another.
             }
-            double tourDistance = tourDistance( CITIES, tour );
+            double tourDistance = tourDistance( tour );
             if ( tourDistance < shortestTourDistance )
             {
                 shortestTour = tour;
@@ -139,14 +139,14 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
         return stringBuilder.toString();
     }
     
-    public static double tourDistance( final double[][] cities, final List<Integer> tour )
+    public static double tourDistance( final List<Integer> tour )
    {
        double cost = 0.0;
        for ( int city = 0; city < tour.size() - 1; city ++ )
        {
-           cost += distance( cities[ tour.get( city ) ], cities[ tour.get( city + 1 ) ] );
+           cost += distance( CITIES[ tour.get( city ) ], CITIES[ tour.get( city + 1 ) ] );
        }
-       return cost + distance( cities[ tour.get( tour.size() - 1 ) ], cities[ tour.get( 0 ) ] );
+       return cost + distance( CITIES[ tour.get( tour.size() - 1 ) ], CITIES[ tour.get( 0 ) ] );
    }
    
    private static double distance( final double[] city1, final double[] city2 )
