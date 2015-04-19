@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2015 petercappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package clients;
+package applications.fibonacci;
 
+import api.Job;
+import api.JobRunner;
+import api.ReturnValue;
+import api.Space;
 import api.Task;
-import applications.fibonacci.TaskFibonacci;
 import java.rmi.RemoteException;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -33,24 +37,26 @@ import javax.swing.SwingConstants;
  *
  * @author Peter Cappello
  */
-public class ClientFibonacci extends Client<Integer>
+public class JobFibonacci implements Job<Integer>
 {
     // configure application
     static private final int N = 16; // F(16) = 987
-    static private final int NUM_COMPUTERS = 2;
     static private final Task TASK = new TaskFibonacci( N );
-    static private       Client client() throws RemoteException { return new ClientFibonacci(); }
-    
-    public ClientFibonacci() throws RemoteException { super( "Fibonacci Number" ); }
-
-    public static void main( String[] args ) throws Exception
-    {  
-        Client.runClient( client(), NUM_COMPUTERS, TASK );
-    }
+    static private       String TITLE = "Fibonacci number";
+    private ReturnValue<Integer> result;
+        
+    public JobFibonacci() {}
     
     @Override
-    JLabel getLabel( Integer returnValue ) 
+    public JLabel viewSolution( Integer number ) 
     {
-        return new JLabel( "    The " + N +  "th Fibonacci number is " + returnValue + "    ", SwingConstants.CENTER) ;
+        return new JLabel( "    The " + N +  "th Fibonacci number is " + number + "    ", SwingConstants.CENTER ) ;
+    }
+    
+    public static void main( String[] args ) throws Exception
+    {
+        final JobFibonacci job = new JobFibonacci();
+        final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
+        jobRunner.run( TASK );
     }
 }

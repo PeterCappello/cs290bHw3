@@ -47,7 +47,7 @@ public class ReturnValue<T> extends Return
     }
     
     public T value() { return value; }
-   
+       
     /**
      *
      * @param parentTask unused - the task whose Result is to be processed.
@@ -61,20 +61,21 @@ public class ReturnValue<T> extends Return
             space.putResult( this );
             return;
         }
-        TaskCompose compose = space.getCompose( composeId );
-        if ( compose == null )
+        TaskCompose taskCompose = space.getCompose( composeId );
+        if ( taskCompose == null )
         {
-            Logger.getLogger( this.getClass().getCanonicalName() ).log(Level.SEVERE, "Waiting compose task missing." );
+            Logger.getLogger( this.getClass().getCanonicalName() )
+                  .log(Level.SEVERE, "Waiting compose task missing: ID: {0}", composeId);
             System.exit( 1 );
         }
         else
         {
             synchronized ( space )
             {
-                compose.arg( composeArgNum, value );
-                if ( compose.isReady() )
+                taskCompose.arg( composeArgNum, value );
+                if ( taskCompose.isReady() )
                 {
-                    space.putReadyTask( compose );
+                    space.putReadyTask( taskCompose );
                     space.removeWaitingTask( composeId );
                 }
             }

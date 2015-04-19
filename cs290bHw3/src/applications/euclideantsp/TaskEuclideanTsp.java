@@ -27,7 +27,6 @@ import api.ReturnSubtasks;
 import api.ReturnValue;
 import api.Task;
 import api.TaskRecursive;
-import clients.ClientEuclideanTsp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
 	{ 2, 7 },
 	{ 3, 3 },
 	{ 6, 3 },
-	{ 6, 6 },
+//	{ 6, 6 },
 	{ 3, 6 }
     };
     static final public double[][] DISTANCES = initializeDistances();

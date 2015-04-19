@@ -26,12 +26,11 @@ import api.ReturnSubtasks;
 import api.ReturnValue;
 import api.Task;
 import api.TaskRecursive;
-import static clients.ClientMandelbrotSet.BLOCK_SIZE;
-import static clients.ClientMandelbrotSet.EDGE_LENGTH;
-import static clients.ClientMandelbrotSet.ITERATION_LIMIT;
-import static clients.ClientMandelbrotSet.LOWER_LEFT_X;
-import static clients.ClientMandelbrotSet.LOWER_LEFT_Y;
-import static clients.ClientMandelbrotSet.N_PIXELS;
+import static applications.mandelbrotset.JobMandelbrotSet.BLOCK_SIZE;
+import static applications.mandelbrotset.JobMandelbrotSet.EDGE_LENGTH;
+import static applications.mandelbrotset.JobMandelbrotSet.ITERATION_LIMIT;
+import static applications.mandelbrotset.JobMandelbrotSet.LOWER_LEFT_X;
+import static applications.mandelbrotset.JobMandelbrotSet.LOWER_LEFT_Y;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ import java.util.List;
  *
  * @author Peter Cappello
  */
-public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
+public class TaskMandelbrotSet extends TaskRecursive<ResultValueMandelbrotSet>
 {
     static final private int MAX_NUM_PIXELS = 256;
     
@@ -63,10 +62,10 @@ public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
     }
     
     @Override
-    public boolean isAtomic() { return MAX_NUM_PIXELS < numPixels; }
+    public boolean isAtomic() { return MAX_NUM_PIXELS <= numPixels; }
 
     @Override
-    public ReturnValue<IterationCounts> solve() 
+    public ReturnValue<ResultValueMandelbrotSet> solve() 
     {
         final Integer[][] counts = new Integer[numPixels][numPixels];
         final double delta = edgeLength / numPixels;
@@ -75,14 +74,14 @@ public class TaskMandelbrotSet extends TaskRecursive<IterationCounts>
             {
                 counts[row][col] = getIterationCount( row, col, delta );
             }
-        return new ReturnValue<>( this, new IterationCounts( counts, 0, 0 ) );
+        return new ReturnValue<>( this, new ResultValueMandelbrotSet( counts, blockRow, blockCol ) );
     }
 
     @Override
     public ReturnSubtasks divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
-        final int numBlocks = N_PIXELS / BLOCK_SIZE;
+        final int numBlocks = numPixels / BLOCK_SIZE;
         double subTaskEdgeLength = EDGE_LENGTH / numBlocks;
         for ( int subTaskBlockRow = 0; subTaskBlockRow < numBlocks; subTaskBlockRow++ )
         {

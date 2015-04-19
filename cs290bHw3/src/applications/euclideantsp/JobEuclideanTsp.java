@@ -48,24 +48,17 @@ public class JobEuclideanTsp implements Job<Tour>
 {
     static final private int NUM_PIXALS = 600;
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
+    
+    // Job configuration
+    static final private String TITLE = "Euclidean TSP";
+    static final private Task TASK = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() );
+    
     private ReturnValue<Tour> result;
         
     public JobEuclideanTsp() {}
-    
-    @Override
-    public List<Task> decompose( Space space ) throws RemoteException { return null; }
 
     @Override
-    public void compose( Space space ) throws RemoteException {}
-
-    @Override
-    public Tour value() { return result.value(); }
-    
-    @Override
-    public void result( ReturnValue result ) { this.result = result; }
-
-    @Override
-    public JLabel viewResult( Tour cityList ) 
+    public JLabel viewSolution( Tour cityList ) 
     {
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Tour: {0}", cityList.toString() );
         Integer[] tour = cityList.tour().toArray( new Integer[0] );
@@ -138,8 +131,8 @@ public class JobEuclideanTsp implements Job<Tour>
     public static void main( String[] args ) throws Exception
     {
         final JobEuclideanTsp job = new JobEuclideanTsp();
-        final JobRunner jobRunner = new JobRunner( job, "Euclidean TSP", "" );
-        jobRunner.run( new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() ) );
+        final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
+        jobRunner.run( TASK );
     }
     
     static private List<Integer> unvisitedCities()

@@ -23,8 +23,6 @@
  */
 package api;
 
-import java.rmi.RemoteException;
-import java.util.List;
 import javax.swing.JLabel;
 
 /**
@@ -34,19 +32,5 @@ import javax.swing.JLabel;
  */
 public interface Job<T> 
 {
-    List<Task> decompose( Space space ) throws RemoteException;
-    
-    /**
-     *
-     * @param space
-     * @throws RemoteException
-     */
-    void compose( Space space ) throws RemoteException;
-    
-    T value();
-    
-    abstract JLabel viewResult( final T returnValue );
-    
-    // !! Fix this.
-    abstract void result( ReturnValue result );
+    abstract JLabel viewSolution( final T returnValue );
 }

@@ -24,7 +24,6 @@
 package api;
 
 import system.Computer;
-import system.Return;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -38,7 +37,7 @@ public interface Space extends Remote
     public static int PORT = 8001;
     public static String SERVICE_NAME = "Space";
 
-    Return compute( Task task ) throws RemoteException;
+    ReturnValue compute( Task task ) throws RemoteException;
     
     /**
      *
@@ -51,5 +50,5 @@ public interface Space extends Remote
     
     void register( Computer computer ) throws RemoteException;
 
-    Return take() throws RemoteException;
+    ReturnValue take() throws RemoteException;
 }

@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import system.ComputerImpl;
-import system.Return;
 import system.SpaceImpl;
 
 /**
@@ -66,32 +65,23 @@ public class JobRunner<T> extends JFrame
         }
         else
         {
-            final String url = "rmi://" + domainName + ":" + Space.PORT + "/" + Space.SERVICE_NAME;
+            final String url = "rmi://" 
+                             + domainName 
+                             + ":" 
+                             + Space.PORT 
+                             + "/" 
+                             + Space.SERVICE_NAME;
             space = (Space) Naming.lookup( url );
         }
     }
     
-    public void run() throws RemoteException
-    {
-        try { space.putAll( job.decompose( space ) ); }
-        catch ( RemoteException exception ) { throw exception; }
-        
-        try { job.compose( space ); }
-        catch( RemoteException exception ) { throw exception; }
-        
-        view(job.viewResult(job.value() ) );
-        Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
-                ( System.nanoTime() - startTime) / 1000000 );
-    }
     
     public void run( Task task ) throws RemoteException
     {
-        Return result = space.compute( task );
-        job.result( ( ReturnValue<Integer> ) result );
-//        job.result( ( ReturnValue<Integer> ) space.compute( task ) );
-        view(job.viewResult(job.value() ) );
-        Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Job run time: {0} ms.", 
-                ( System.nanoTime() - startTime) / 1000000 );
+        ReturnValue<T> returnValue = space.compute( task );
+        view( job.viewSolution( returnValue.value() ) );
+        Logger.getLogger( this.getClass().getCanonicalName() )
+              .log( Level.INFO, "Job run time: {0} ms.", ( System.nanoTime() - startTime ) / 1000000 );
     }
     
     private void view( final JLabel jLabel )

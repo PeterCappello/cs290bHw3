@@ -23,6 +23,7 @@
  */
 package system;
 
+import api.ReturnValue;
 import api.Space;
 import api.Task;
 import api.TaskCompose;
@@ -50,7 +51,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
            final private AtomicInteger taskIds     = new AtomicInteger();
     
     private final BlockingQueue<Task>   readyTaskQ   = new LinkedBlockingQueue<>();
-    private final BlockingQueue<Return> resultQ      = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ReturnValue> resultQ      = new LinkedBlockingQueue<>();
 
     private final Map<Computer,ComputerProxy> computerProxies = Collections.synchronizedMap( new HashMap<>() );  // !! make concurrent
     private final Map<Integer, TaskCompose>   waitingTaskMap  = Collections.synchronizedMap( new HashMap<>() );
@@ -69,7 +70,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @return the Task's Return object.
      */
     @Override
-    public Return compute( Task task )
+    public ReturnValue compute( Task task )
     {
         execute( task );
         return take();
@@ -79,7 +80,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @param task
      */
     @Override
-    synchronized public void execute(Task task) 
+    synchronized public void execute( Task task ) 
     { 
         task.id( makeTaskId() );
         task.composeId( FINAL_RETURN_VALUE );
@@ -87,11 +88,14 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     }
     
     @Override
-    synchronized public void putAll( List<Task> taskList )
+    synchronized public void putAll( final List<Task> taskList )
     {
         for ( Task task : taskList )
         {
+//            task.id( makeTaskId() );
+//            task.composeId( FINAL_RETURN_VALUE );
             readyTaskQ.add( task );
+//            System.out.println("putAll: readyTaskQ.size()" + readyTaskQ.size() );
         }
     }
 
@@ -100,7 +104,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
      * @return a Return object.
      */
     @Override
-    public Return take() 
+    public ReturnValue take() 
     {
         try 
         {
@@ -160,7 +164,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         try { readyTaskQ.put( task ); } catch ( InterruptedException ignore ){} 
     }
     
-    public void putResult( Return result )
+    public void putResult( ReturnValue result )
     {
         try { resultQ.put( result ); } catch( InterruptedException ignore ){}
     }
@@ -202,7 +206,8 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
                 {
                     readyTaskQ.add( task );
                     computerProxies.remove( computer );
-                    Logger.getLogger( this.getClass().getName() ).log( Level.WARNING, "Computer {0} failed.", computerId );
+                    Logger.getLogger( this.getClass().getName() )
+                          .log( Level.WARNING, "Computer {0} failed.", computerId );
                 } 
                 catch ( InterruptedException ex ) { Logger.getLogger( this.getClass().getName()).log( Level.INFO, null, ex ); }
             }
