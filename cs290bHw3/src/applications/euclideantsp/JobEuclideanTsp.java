@@ -26,13 +26,11 @@ package applications.euclideantsp;
 import api.Job;
 import api.JobRunner;
 import api.ReturnValue;
-import api.Space;
 import api.Task;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,10 +50,15 @@ public class JobEuclideanTsp implements Job<Tour>
     // Job configuration
     static final private String TITLE = "Euclidean TSP";
     static final private Task TASK = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() );
-    
-    private ReturnValue<Tour> result;
-        
+            
     public JobEuclideanTsp() {}
+    
+    public static void main( String[] args ) throws Exception
+    {
+        final JobEuclideanTsp job = new JobEuclideanTsp();
+        final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
+        jobRunner.run( TASK );
+    }
 
     @Override
     public JLabel viewSolution( Tour cityList ) 
@@ -126,13 +129,6 @@ public class JobEuclideanTsp implements Job<Tour>
         }
         final ImageIcon imageIcon = new ImageIcon( image );
         return new JLabel( imageIcon );
-    }
-    
-    public static void main( String[] args ) throws Exception
-    {
-        final JobEuclideanTsp job = new JobEuclideanTsp();
-        final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
-        jobRunner.run( TASK );
     }
     
     static private List<Integer> unvisitedCities()
