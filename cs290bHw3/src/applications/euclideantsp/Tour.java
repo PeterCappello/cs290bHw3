@@ -23,13 +23,15 @@
  */
 package applications.euclideantsp;
 
+import api.ReturnValue;
 import java.util.List;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Peter Cappello
  */
-public class Tour implements Comparable<Tour>
+public class Tour  implements Comparable<Tour>
 {
     final private List<Integer> tour;
     final private double cost;
@@ -54,4 +56,10 @@ public class Tour implements Comparable<Tour>
     { 
         return this.cost < tour.cost ? -1 : this.cost > tour.cost ? 1 : 0;
     }
+
+//    @Override
+//    public JLabel view(List<Integer> value) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet.");
+//    }
 }

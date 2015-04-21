@@ -50,15 +50,16 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     static final private AtomicInteger computerIds = new AtomicInteger();
            final private AtomicInteger taskIds     = new AtomicInteger();
     
-    private final BlockingQueue<Task>   readyTaskQ   = new LinkedBlockingQueue<>();
-    private final BlockingQueue<ReturnValue> resultQ      = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Task>     readyTaskQ = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ReturnValue> resultQ = new LinkedBlockingQueue<>();
 
     private final Map<Computer,ComputerProxy> computerProxies = Collections.synchronizedMap( new HashMap<>() );  // !! make concurrent
     private final Map<Integer, TaskCompose>   waitingTaskMap  = Collections.synchronizedMap( new HashMap<>() );
         
     public SpaceImpl() throws RemoteException 
     {
-        Logger.getLogger( SpaceImpl.class.getName() ).log( Level.INFO, "Space started." );
+        Logger.getLogger( this.getClass().getName() )
+              .log( Level.INFO, "Space started." );
     }
     
     /**
@@ -95,7 +96,6 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
 //            task.id( makeTaskId() );
 //            task.composeId( FINAL_RETURN_VALUE );
             readyTaskQ.add( task );
-//            System.out.println("putAll: readyTaskQ.size()" + readyTaskQ.size() );
         }
     }
 
@@ -106,13 +106,11 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
     @Override
     public ReturnValue take() 
     {
-        try 
-        {
-            return resultQ.take();
-        } 
+        try { return resultQ.take(); } 
         catch ( InterruptedException exception ) 
         {
-            Logger.getLogger(SpaceImpl.class.getName()).log(Level.INFO, null, exception);
+            Logger.getLogger( this.getClass().getName() )
+                  .log(Level.INFO, null, exception);
         }
         assert false; // should never reach this point
         return null;
@@ -137,7 +135,8 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         final ComputerProxy computerproxy = new ComputerProxy( computer );
         computerProxies.put( computer, computerproxy );
         computerproxy.start();
-        Logger.getLogger(SpaceImpl.class.getName()).log(Level.INFO, "Computer {0} started.", computerproxy.computerId);
+        Logger.getLogger( this.getClass().getName() )
+              .log(Level.INFO, "Computer {0} started.", computerproxy.computerId);
     }
     
     public static void main( String[] args ) throws Exception
@@ -159,15 +158,9 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         assert waitingTaskMap.get( compose.id() ) != null;
     }
     
-    public void putReadyTask( Task task ) 
-    { 
-        try { readyTaskQ.put( task ); } catch ( InterruptedException ignore ){} 
-    }
+    public void putReadyTask( Task task ) { readyTaskQ.add( task ); }
     
-    public void putResult( ReturnValue result )
-    {
-        try { resultQ.put( result ); } catch( InterruptedException ignore ){}
-    }
+    public void putResult( ReturnValue result ) { resultQ.add( result ); }
     
     public void removeWaitingTask( int composeId ) { waitingTaskMap.remove( composeId ); }
     
@@ -185,11 +178,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
         }
         
         @Override
-        public void exit() 
-        { 
-            try { computer.exit(); } 
-            catch ( RemoteException ignore ) {} 
-        }
+        public void exit() { try { computer.exit(); } catch ( RemoteException ignore ) {} }
 
         @Override
         public void run() 
@@ -209,7 +198,11 @@ public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Sp
                     Logger.getLogger( this.getClass().getName() )
                           .log( Level.WARNING, "Computer {0} failed.", computerId );
                 } 
-                catch ( InterruptedException ex ) { Logger.getLogger( this.getClass().getName()).log( Level.INFO, null, ex ); }
+                catch ( InterruptedException ex ) 
+                { 
+                    Logger.getLogger( this.getClass().getName() )
+                                                     .log( Level.INFO, "ComputerProxy Thread interrupted.", ex ); 
+                }
             }
         }
     }

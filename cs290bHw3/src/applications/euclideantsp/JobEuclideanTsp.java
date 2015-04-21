@@ -67,7 +67,7 @@ public class JobEuclideanTsp implements Job<Tour>
         Integer[] tour = cityList.tour().toArray( new Integer[0] );
 
         // display the graph graphically, as it were
-        // get minX, maxX, minY, maxY, assuming they 0.0 <= mins
+        // get minX, maxX, minY, maxY, assuming 0.0 <= mins
         double minX = CITIES[0][0], maxX = CITIES[0][0];
         double minY = CITIES[0][1], maxY = CITIES[0][1];
         for ( double[] cities : CITIES ) 

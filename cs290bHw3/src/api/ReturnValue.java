@@ -26,6 +26,7 @@ package api;
 import system.Return;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import system.SpaceImpl;
 
 /**
@@ -81,4 +82,11 @@ public class ReturnValue<T> extends Return
             }
         }
     }
+    
+//    /**
+//     * Compute the JLabel view of the task return value.
+//     * @param value - the task return value.
+//     * @return JLabel view of the task return value.
+//     */
+//    abstract public JLabel view( T value );
 }
