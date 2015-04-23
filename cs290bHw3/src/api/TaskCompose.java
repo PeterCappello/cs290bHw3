@@ -6,7 +6,9 @@
 package api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public abstract class TaskCompose<I> extends Task
 {
-    private int numUnsetArgs;
+    private AtomicInteger numUnsetArgs;
     private List<I> args;
     
     @Override
@@ -26,18 +28,18 @@ public abstract class TaskCompose<I> extends Task
     public void arg( int argNum, I argValue ) 
     { 
         args.set( argNum, argValue );
-        numUnsetArgs--;
+        numUnsetArgs.decrementAndGet();
     }
     
     public void numArgs( int numArgs )
     {
-        numUnsetArgs = numArgs;
-        args = new ArrayList<>( numArgs );
+        numUnsetArgs = new AtomicInteger( numArgs );
+        args = Collections.synchronizedList( new ArrayList<>( numArgs ) );
         for ( int i = 0; i < numArgs; i++ )
         {
             args.add( null );
         }
     }
     
-    public boolean isReady() { return numUnsetArgs == 0; }
+    public boolean isReady() { return numUnsetArgs.intValue() == 0; }
 }
