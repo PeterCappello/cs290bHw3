@@ -25,14 +25,10 @@ package util;
 
 import java.util.ArrayList;
 import java.util.List;
-//import org.paukov.combinatorics.Factory;
-//import org.paukov.combinatorics.Generator;
-//import org.paukov.combinatorics.ICombinatoricsVector;
 
 /**
  *
  * @author Pete Cappello
- * @param <T> the type of objectList being permuted.
  */
 public class PermutationEnumerator 
 {

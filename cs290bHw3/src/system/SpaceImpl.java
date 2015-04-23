@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  *
  * @author Peter Cappello
  */
-public class SpaceImpl extends UnicastRemoteObject implements Space, Computer2Space
+public class SpaceImpl extends UnicastRemoteObject implements Space
 {
     static final public int FINAL_RETURN_VALUE = -1;
     static final private AtomicInteger computerIds = new AtomicInteger();
