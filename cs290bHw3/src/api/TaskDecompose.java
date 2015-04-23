@@ -30,7 +30,7 @@ import system.Return;
  * @author Peter Cappello
  * @param <T> type of the solution to this recursive problem.
  */
-abstract public class TaskRecursive<T> extends Task
+abstract public class TaskDecompose<T> extends Task
 {    
     @Override
     public Return call() { return isAtomic() ? solve() : divideAndConquer(); }
@@ -39,5 +39,5 @@ abstract public class TaskRecursive<T> extends Task
     
     abstract public ReturnValue<T> solve();
     
-    abstract public ReturnSubtasks divideAndConquer();
+    abstract public ReturnDecomposition divideAndConquer();
 }

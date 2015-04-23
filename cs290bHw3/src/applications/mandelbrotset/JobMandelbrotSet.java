@@ -57,7 +57,7 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     public JobMandelbrotSet() {}
     
     @Override
-    public JLabel viewSolution( ResultValueMandelbrotSet returnValue ) 
+    public JLabel view( ResultValueMandelbrotSet returnValue ) 
     {
         final Integer[][] counts = returnValue.counts();
         final Image image = new BufferedImage( N_PIXELS, N_PIXELS, BufferedImage.TYPE_INT_ARGB );

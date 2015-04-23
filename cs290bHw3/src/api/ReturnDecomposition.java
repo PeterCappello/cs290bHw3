@@ -27,12 +27,12 @@ import java.util.List;
 import system.Return;
 import system.SpaceImpl;
 
-public class ReturnSubtasks extends Return
+public class ReturnDecomposition extends Return
 {    
     final private TaskCompose compose;
     final private List<Task> tasks;
     
-    public ReturnSubtasks( TaskCompose compose, List<Task> tasks )
+    public ReturnDecomposition( TaskCompose compose, List<Task> tasks )
     {
         this.compose = compose;
         this.tasks = tasks;
@@ -56,8 +56,6 @@ public class ReturnSubtasks extends Return
         compose.composeArgNum( parentTask.composeArgNum() );
         compose.numArgs( tasks.size() );
         space.putCompose( compose );
-//        System.out.println("ReturnSubtasks.process compose: compose.id(): " + compose.id()
-//                + " compose.composeId(): " + compose.composeId());
         for ( int i = 0; i < tasks.size(); i++  )
         {
             Task task = tasks.get( i );
@@ -65,11 +63,6 @@ public class ReturnSubtasks extends Return
             task.composeId( composeId );
             task.composeArgNum( i );
             space.putReadyTask( task ); 
-//            System.out.println(" task: task.id(): " + task.id()
-//                    + " task.composeId(): " + task.composeId()
-//                    + " task.composeArgNum( " + i + " ): " + task.composeArgNum()
-//                    + " task: " + task
-//             );
         }
     }
 }

@@ -23,10 +23,10 @@
  */
 package applications.euclideantsp;
 
-import api.ReturnSubtasks;
+import api.ReturnDecomposition;
 import api.ReturnValue;
 import api.Task;
-import api.TaskRecursive;
+import api.TaskDecompose;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +37,7 @@ import util.PermutationEnumerator;
  * followed by city secondCity.
  * @author Peter Cappello
  */
-public class TaskEuclideanTsp extends TaskRecursive<Tour>
+public class TaskEuclideanTsp extends TaskDecompose<Tour>
 { 
     static final public double[][] CITIES =
     {
@@ -86,7 +86,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
         double shortestTourDistance = tourDistance( shortestTour );
 
         // Use my permutation enumerator
-        PermutationEnumerator<Integer> permutationEnumerator = new PermutationEnumerator<>( unvisitedCities );
+        PermutationEnumerator permutationEnumerator = new PermutationEnumerator( unvisitedCities );
         for ( List<Integer> subtour = permutationEnumerator.next(); subtour != null; subtour = permutationEnumerator.next() ) 
         {
             List<Integer> tour = new ArrayList<>( partialTour );
@@ -106,7 +106,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
     }
 
     @Override
-    public ReturnSubtasks divideAndConquer() 
+    public ReturnDecomposition divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
         for ( Integer unvisitedCity : unvisitedCities )
@@ -117,7 +117,7 @@ public class TaskEuclideanTsp extends TaskRecursive<Tour>
             subtaskPartialTour.add( unvisitedCity ); // extend tour with this city.
             subtasks.add( new TaskEuclideanTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
         }
-        return new ReturnSubtasks( new MinTour(), subtasks );
+        return new ReturnDecomposition( new MinTour(), subtasks );
     }
     
     @Override

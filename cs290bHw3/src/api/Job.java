@@ -32,5 +32,5 @@ import javax.swing.JLabel;
  */
 public interface Job<T> 
 {
-    abstract JLabel viewSolution( final T returnValue );
+    abstract JLabel view( final T returnValue );
 }

@@ -61,7 +61,7 @@ public class JobEuclideanTsp implements Job<Tour>
     }
 
     @Override
-    public JLabel viewSolution( Tour cityList ) 
+    public JLabel view( Tour cityList ) 
     {
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Tour: {0}", cityList.toString() );
         Integer[] tour = cityList.tour().toArray( new Integer[0] );

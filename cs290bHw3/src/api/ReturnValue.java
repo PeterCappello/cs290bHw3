@@ -82,11 +82,4 @@ public class ReturnValue<T> extends Return
             }
         }
     }
-    
-//    /**
-//     * Compute the JLabel view of the task return value.
-//     * @param value - the task return value.
-//     * @return JLabel view of the task return value.
-//     */
-//    abstract public JLabel view( T value );
 }

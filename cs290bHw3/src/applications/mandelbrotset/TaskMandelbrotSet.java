@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 package applications.mandelbrotset;
-import api.ReturnSubtasks;
+import api.ReturnDecomposition;
 import api.ReturnValue;
 import api.Task;
-import api.TaskRecursive;
+import api.TaskDecompose;
 import static applications.mandelbrotset.JobMandelbrotSet.BLOCK_SIZE;
 import static applications.mandelbrotset.JobMandelbrotSet.EDGE_LENGTH;
 import static applications.mandelbrotset.JobMandelbrotSet.ITERATION_LIMIT;
@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Peter Cappello
  */
-public class TaskMandelbrotSet extends TaskRecursive<ResultValueMandelbrotSet>
+public class TaskMandelbrotSet extends TaskDecompose<ResultValueMandelbrotSet>
 {
     static final private int MAX_NUM_PIXELS = 256;
     
@@ -78,7 +78,7 @@ public class TaskMandelbrotSet extends TaskRecursive<ResultValueMandelbrotSet>
     }
 
     @Override
-    public ReturnSubtasks divideAndConquer() 
+    public ReturnDecomposition divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
         final int numBlocks = numPixels / BLOCK_SIZE;
@@ -93,7 +93,7 @@ public class TaskMandelbrotSet extends TaskRecursive<ResultValueMandelbrotSet>
                 subtasks.add( task );
             }
         }
-        return new ReturnSubtasks( new AddBlocks(), subtasks );
+        return new ReturnDecomposition( new AddBlocks(), subtasks );
     }
     
     @Override

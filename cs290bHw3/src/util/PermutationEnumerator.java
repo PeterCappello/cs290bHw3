@@ -34,13 +34,13 @@ import java.util.List;
  * @author Pete Cappello
  * @param <T> the type of objectList being permuted.
  */
-public class PermutationEnumerator<T> 
+public class PermutationEnumerator 
 {
-    private PermutationEnumerator<T> subPermutationEnumerator;
-    private List<T> permutation;
-    private List<T> subpermutation;
+    private PermutationEnumerator subPermutationEnumerator;
+    private List<Integer> permutation;
+    private List<Integer> subpermutation;
     private int nextIndex = 0;
-    private T interleaveObject;
+    private Integer interleaveObject;
     
     final static Integer ONE = 1;
     final static Integer TWO = 2;
@@ -50,7 +50,7 @@ public class PermutationEnumerator<T>
      * @param objectList the objectList being permuted is unmodified.
      * @throws java.lang.IllegalArgumentException when passed a null object list.
      */
-    public PermutationEnumerator( final List<T> objectList ) throws IllegalArgumentException
+    public PermutationEnumerator( final List<Integer> objectList ) throws IllegalArgumentException
     {
         if ( objectList == null )
         {
@@ -63,76 +63,30 @@ public class PermutationEnumerator<T>
         }
         subpermutation = new ArrayList<>( permutation );
         interleaveObject = subpermutation.remove( 0 );
-        subPermutationEnumerator = new PermutationEnumerator<>( subpermutation );
+        subPermutationEnumerator = new PermutationEnumerator( subpermutation );
         subpermutation = subPermutationEnumerator.next();
     }
-    
-    /**
-     * Enumerates the permutations of a List of Integer objectList.
-     * Application: Guide the permutation a List or array of objectList.
-     * @param integerList - the list of Integer objectList to be permuted.
-     * @return List of permutations, each represented as a List of Integer.
-     * If p is such a permutation, then reverse(p) is omitted from returned List.
-     */
-    public List<List<Integer>> enumerate( List<Integer> integerList )
-    {
-        List<List<Integer>> permutationList = new ArrayList<>();
-
-         // Base case
-        if( integerList.isEmpty() )
-         {
-             permutationList.add( new ArrayList<>() );
-             return permutationList;
-         }
-
-         // Inductive case
-         //  1. create subproblem
-         final Integer n = integerList.remove( 0 );
-
-         //  2. solve subproblem
-         final List<List<Integer>> subPermutationList = enumerate( integerList );
-
-         //  3. solve problem using subproblem solution
-         subPermutationList.stream().forEach( subPermutation -> 
-         {            
-            //  if p is a cyclic permutation, omit reverse(p): 1 always occurs before 2 in p.
-            if ( ! n.equals( ONE ) )
-                for( int index = 0; index <= subPermutation.size(); index++ )
-                    permutationList.add( addElement( subPermutation, index, n ) );
-            else 
-               for( int index = 0; index < subPermutation.indexOf( TWO ); index++ )
-                    permutationList.add( addElement( subPermutation, index, n ) );
-        });   
-        return permutationList;
-   }
-  
-   private static List<Integer> addElement( final List<Integer> subPermutation, final int index, final Integer n )
-   {
-       List<Integer> permutation = new ArrayList<>( subPermutation );
-       permutation.add( index, n );
-       return permutation;
-   }
     
     /**
      * Produce the permutation permutation.
      * @return the permutation permutation as a List.
      * If none, returns null.
-     * @throws java.lang.IllegalArgumentException  permutation() invoked when hasNext() is false.
+     * @throws java.lang.IllegalArgumentException permutation() invoked when hasNext() is false.
      */
-    public List<T> next() throws IllegalArgumentException
+    public List<Integer> next() throws IllegalArgumentException
     {
         if ( permutation == null )
         {
             return null;
         }
-        List<T> returnValue = new ArrayList<>( permutation );
+        List<Integer> returnValue = new ArrayList<>( permutation );
         if ( permutation.isEmpty() )
         {
             permutation = null;
         }
         else if ( nextIndex < permutation.size() - 1)
         {
-            T temp = permutation.get( nextIndex + 1 );
+            Integer temp = permutation.get( nextIndex + 1 );
             permutation.set( nextIndex + 1, permutation.get( nextIndex ) );
             permutation.set( nextIndex++, temp );
         }
