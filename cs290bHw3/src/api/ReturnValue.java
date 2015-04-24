@@ -72,15 +72,15 @@ public class ReturnValue<T> extends Return
         else
         {
             taskCompose.arg( composeArgNum, value );
-//            synchronized ( space )
-//            {
+            synchronized ( space )
+            {
                 
                 if ( taskCompose.isReady() )
                 {
                     space.putReadyTask( taskCompose );
                     space.removeWaitingTask( composeId );
                 }
-//            }
+            }
         }
     }
 }

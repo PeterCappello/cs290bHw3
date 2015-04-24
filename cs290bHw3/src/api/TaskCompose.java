@@ -23,23 +23,28 @@ public abstract class TaskCompose<I> extends Task
     @Override
     abstract public ReturnValue call();
     
-    public List<I> args() { return args; }
+    /**
+     *
+     * @return
+     */
+    synchronized public List<I> args() { return args; }
     
-    public void arg( int argNum, I argValue ) 
+    synchronized public void arg( int argNum, I argValue ) 
     { 
         args.set( argNum, argValue );
         numUnsetArgs.decrementAndGet();
     }
     
-    public void numArgs( int numArgs )
+    synchronized public void numArgs( int numArgs )
     {
         numUnsetArgs = new AtomicInteger( numArgs );
         args = Collections.synchronizedList( new ArrayList<>( numArgs ) );
+        // !! rework this so that loop is unnecessary.
         for ( int i = 0; i < numArgs; i++ )
         {
             args.add( null );
         }
     }
     
-    public boolean isReady() { return numUnsetArgs.intValue() == 0; }
-}
+    synchronized public boolean isReady() { return numUnsetArgs.intValue() == 0; }
+} 
