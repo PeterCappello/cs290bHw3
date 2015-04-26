@@ -72,6 +72,4 @@ public abstract class TaskCompose<I> extends Task
         }
         assert args.size() == numArgs;
     }
-    
-//    synchronized public boolean isReady() { return numUnsetArgs.intValue() == 0; }
 } 
