@@ -22,10 +22,7 @@
  * THE SOFTWARE.
  */
 package api;
-
 import system.Return;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import system.SpaceImpl;
 
 /**
@@ -62,24 +59,7 @@ public class ReturnValue<T> extends Return
             return;
         }
         TaskCompose taskCompose = space.getCompose( composeId );
-        if ( taskCompose == null )
-        {
-            Logger.getLogger( this.getClass().getCanonicalName() )
-                  .log(Level.SEVERE, "Waiting compose task missing: ID: {0}", composeId);
-            System.exit( 1 );
-        }
-        else
-        {
-            taskCompose.arg( composeArgNum, value );
-            synchronized ( space )
-            {
-                
-                if ( taskCompose.isReady() )
-                {
-                    space.putReadyTask( taskCompose );
-                    space.removeWaitingTask( composeId );
-                }
-            }
-        }
+        assert taskCompose != null;
+        taskCompose.arg( composeArgNum, value, space );
     }
 }
