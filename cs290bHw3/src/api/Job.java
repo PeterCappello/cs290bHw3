@@ -26,11 +26,16 @@ package api;
 import javax.swing.JLabel;
 
 /**
- *
+ * 
  * @author Peter Cappello
  * @param <T>
  */
 public interface Job<T> 
 {
+    /**
+     * Display the solution as a JLabel.
+     * @param returnValue the solution.
+     * @return some representation of the solution.
+     */
     abstract JLabel view( final T returnValue );
 }

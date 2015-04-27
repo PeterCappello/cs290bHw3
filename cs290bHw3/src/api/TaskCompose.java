@@ -29,7 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import system.SpaceImpl;
 
 /**
- *
+ * A Task whose inputs are the output (return value of an execute method) of 
+ * some sequence of tasks.
  * @author Peter Cappello
  * @param <I> input type.
  */
@@ -43,10 +44,18 @@ public abstract class TaskCompose<I> extends Task
     
     /**
      *
-     * @return
+     * @return the List of inputs.
      */
     synchronized public List<I> args() { return args; }
     
+    /**
+     * Set one of this task's inputs.
+     * @param argNum the index of this input.
+     * @param argValue the value of this input.
+     * @param space if this is the last input this task is waiting for,
+     * put the now ready task in the space's ready task queue; remove it from
+     * the waiting task map.
+     */
     synchronized public void arg( int argNum, I argValue, SpaceImpl space ) 
     { 
         assert numUnsetArgs.get() > 0 && numUnsetArgs.intValue() != 0 && argValue != null && args.get( argNum ) == null;
@@ -60,6 +69,10 @@ public abstract class TaskCompose<I> extends Task
         }
     }
     
+    /**
+     * Initialize the List of inputs to this task with null values.
+     * @param numArgs
+     */
     synchronized public void numArgs( int numArgs )
     {
         numUnsetArgs = new AtomicInteger( numArgs );

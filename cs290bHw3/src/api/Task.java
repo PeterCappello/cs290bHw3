@@ -36,16 +36,49 @@ abstract public class Task implements Serializable, Callable<Return>
     private int composeId;
     private int composeArgNum;
     
+    /**
+    * Task is an encapsulation of some computation.
+    * @author Peter Cappello
+    */
     @Override
     abstract public Return call(); 
         
+    /**
+     *
+     * @return the task id.
+     */
     public int  id() { return id; }
+
+    /**
+     *
+     * @param id set the task id.
+     */
     public void id( int id ) { this.id = id; }
     
+    /**
+     * 
+     * @return the number of the input (this task execute method return value)
+     * to the successor task.
+     */
     public int  composeArgNum() { return composeArgNum; }
+
+    /**
+     *
+     * @param composeArgNum set the number of the input (this task execute 
+     * method return value) to the successor task.
+     */
     public void composeArgNum( int composeArgNum ) { this.composeArgNum = composeArgNum; }
     
+    /**
+     * Get the id of this task's successor task.
+     * @return the id of this task's successor task.
+     */
     public int  composeId() { return composeId; }
+
+    /**
+     * Set the id of this task's successor task.
+     * @param composeId the id of this task's successor task.
+     */
     public void composeId( int composeId ) { this.composeId = composeId; }
     
     @Override

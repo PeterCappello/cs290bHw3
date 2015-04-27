@@ -27,23 +27,41 @@ import java.util.List;
 import system.Return;
 import system.SpaceImpl;
 
+/**
+ * The return value of a Task execute method that decomposes into subtasks and 
+ * a composition task.
+ * @author Peter Cappello
+ */
 public class ReturnDecomposition extends Return
 {    
     final private TaskCompose compose;
     final private List<Task> tasks;
     
+    /**
+     *
+     * @param compose the composition task.
+     * @param tasks the List of subtasks.
+     */
     public ReturnDecomposition( TaskCompose compose, List<Task> tasks )
     {
         this.compose = compose;
         this.tasks = tasks;
     }
     
+    /**
+     *
+     * @return the composition task.
+     */
     public TaskCompose compose() { return compose; }
-    
-    public List<Task> tasks() { return tasks; }
     
     /**
      *
+     * @return the List of subtasks.
+     */
+    public List<Task> tasks() { return tasks; }
+    
+    /**
+     * Set id and compose id of the composition task and each subtask.
      * @param parentTask the task whose result is to be processed.
      * @param space the Space that holds the Task and Results.
      */

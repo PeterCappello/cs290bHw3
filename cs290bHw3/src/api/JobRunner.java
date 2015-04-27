@@ -38,9 +38,9 @@ import system.ComputerImpl;
 import system.SpaceImpl;
 
 /**
- *
+ * The class used to "run" the Job.
  * @author Peter Cappello
- * @param <T> type if value returned by value.
+ * @param <T> type of value returned by value.
  */
 public class JobRunner<T> extends JFrame
 {
@@ -48,6 +48,16 @@ public class JobRunner<T> extends JFrame
     final private Space  space;
     final private long   startTime = System.nanoTime();
     
+    /**
+     *
+     * @param job the Job to be run.
+     * @param title the String to be displaced on the JPanel containing the JLabel.
+     * @param domainName of the Space to be used.
+     * @throws RemoteException occurs if there is a communication problem or
+     * the remote service is not responding
+     * @throws NotBoundException There is no Space service bound in the RMI registry.
+     * @throws MalformedURLException the URL provided for the Space RMI registry is malformed.
+     */
     public JobRunner( Job job, String title, String domainName ) 
            throws RemoteException, NotBoundException, MalformedURLException
     { 
@@ -75,7 +85,13 @@ public class JobRunner<T> extends JFrame
         }
     }
     
-    
+    /**
+     * Run the Job: Generate the tasks, retrieve the results, compose a solution
+     * to the original problem, and display the solution.
+     * @param task the task that defines the job.
+     * @throws RemoteException occurs if there is a communication problem or
+     * the remote service is not responding
+     */
     public void run( Task task ) throws RemoteException
     {
         ReturnValue<T> returnValue = space.compute( task );

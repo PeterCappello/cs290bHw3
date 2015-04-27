@@ -26,7 +26,8 @@ import system.Return;
 import system.SpaceImpl;
 
 /**
- *
+ * The return value of some task execute method that does NOT decompose into 
+ * subtasks.
  * @author Peter Cappello
  * @param <T>
  */
@@ -36,6 +37,11 @@ public class ReturnValue<T> extends Return
     final private int composeArgNum;
     final private T value;
     
+    /**
+     *
+     * @param task whose return value is contained in this object
+     * @param value the task execute method return value.
+     */
     public ReturnValue( Task task, T value ) 
     { 
         composeId = task.composeId();
@@ -43,12 +49,16 @@ public class ReturnValue<T> extends Return
         this.value = value; 
     }
     
+    /**
+     *
+     * @return the return value.
+     */
     public T value() { return value; }
        
     /**
-     *
+     * Update the compose task that is waiting for this input.
      * @param parentTask unused - the task whose Result is to be processed.
-     * @param space
+     * @param space containing the compose task that is waiting for this value.
      */
     @Override
     public void process( Task parentTask, SpaceImpl space )

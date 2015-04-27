@@ -26,18 +26,35 @@ package api;
 import system.Return;
 
 /**
- *
+ * A Task that may decomposes into subtasks and a composition task.
  * @author Peter Cappello
  * @param <T> type of the solution to this recursive problem.
  */
 abstract public class TaskDecompose<T> extends Task
 {    
+    /**
+     * If this task does not decompose, return a ReturnValue object, 
+     * otherwise return a ReturnDecomposition object.
+     * @return Either a ReturnValue object of a ReturnDecomposition object.
+     */
     @Override
     public Return call() { return isAtomic() ? solve() : divideAndConquer(); }
     
+    /**
+     *
+     * @return true if and only if this task does not decompose.
+     */
     abstract public boolean isAtomic();
     
+    /**
+     *
+     * @return the ReturnValue object.
+     */
     abstract public ReturnValue<T> solve();
     
+    /**
+     *
+     * @return the ReturnDecomposition object.
+     */
     abstract public ReturnDecomposition divideAndConquer();
 }

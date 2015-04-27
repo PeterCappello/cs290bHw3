@@ -38,7 +38,7 @@ abstract public class Return implements Serializable
     public void taskRunTime( long taskRunTime ) { this.taskRunTime = taskRunTime; }
     
     /**
-     *
+     * process the return value of a Task execute method.
      * @param task the task whose Result is to be processed.
      * @param space the receiving the Temp objects.
      */
