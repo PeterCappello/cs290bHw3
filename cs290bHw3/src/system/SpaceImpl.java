@@ -53,7 +53,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     private final BlockingQueue<Task>     readyTaskQ = new LinkedBlockingQueue<>();
     private final BlockingQueue<ReturnValue> resultQ = new LinkedBlockingQueue<>();
 
-    private final Map<Computer,ComputerProxy> computerProxies = Collections.synchronizedMap( new HashMap<>() );  // !! make concurrent
+    private final Map<Computer,ComputerProxy> computerProxies = Collections.synchronizedMap( new HashMap<>() );
     private final Map<Integer, TaskCompose>   waitingTaskMap  = Collections.synchronizedMap( new HashMap<>() );
         
     public SpaceImpl() throws RemoteException 
