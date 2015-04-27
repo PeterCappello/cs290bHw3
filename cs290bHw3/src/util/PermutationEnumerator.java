@@ -64,8 +64,8 @@ public class PermutationEnumerator
     }
     
     /**
-     * Produce the permutation permutation.
-     * @return the permutation permutation as a List.
+     * Produce the next permutation.
+     * @return the next permutation as a List of Integer objects.
      * If none, returns null.
      * @throws java.lang.IllegalArgumentException permutation() invoked when hasNext() is false.
      */
@@ -80,7 +80,7 @@ public class PermutationEnumerator
         {
             permutation = null;
         }
-        else if ( nextIndex < permutation.size() - 1)
+        else if ( nextIndex < permutation.size() - 1 )
         {
             Integer temp = permutation.get( nextIndex + 1 );
             permutation.set( nextIndex + 1, permutation.get( nextIndex ) );
