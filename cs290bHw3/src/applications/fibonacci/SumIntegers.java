@@ -32,6 +32,10 @@ import api.TaskCompose;
  */
 public class SumIntegers extends TaskCompose<Integer>
 {    
+    /**
+     * 
+     * @return the sum of its 2 inputs.
+     */
     @Override
     public ReturnValue call() 
     {

@@ -38,6 +38,10 @@ public class TaskFibonacci extends TaskDecompose<Integer>
 { 
     final private int n;
             
+    /**
+     * 
+     * @param n the Fibonacci number to be computed.
+     */
     public TaskFibonacci( int n ) 
     { 
         if ( n < 0 )
@@ -47,12 +51,26 @@ public class TaskFibonacci extends TaskDecompose<Integer>
         this.n = n; 
     }
 
+    /**
+     * 
+     * @return true if and only if n is less than 2.
+     */
     @Override
     public boolean isAtomic() { return n < 2; }
 
+    /**
+     * 
+     * @return f( 0 ) = 0; f( 1 ) = 1.
+     */
     @Override
     public ReturnValue<Integer> solve() { return new ReturnValue<>( this, n ); }
 
+    /**
+     * f( n ) = f( n - 1 ) + f( n - 2 ), n greater than 1.
+     * @return 2 TaskFibonacci subtasks, 1 for n - 1 and one for n - 2, 
+     * as well as a SumIntegers TaskCompose to sum the return values of the 
+     * subtasks.
+     */
     @Override
     public ReturnDecomposition divideAndConquer() 
     {
