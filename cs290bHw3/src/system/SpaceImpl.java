@@ -196,7 +196,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
                 catch ( InterruptedException ex ) 
                 { 
                     Logger.getLogger( this.getClass().getName() )
-                                                     .log( Level.INFO, "ComputerProxy Thread interrupted.", ex ); 
+                          .log( Level.INFO, "ComputerProxy Thread interrupted.", ex ); 
                 }
             }
         }
