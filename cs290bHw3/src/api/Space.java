@@ -34,21 +34,20 @@ import java.util.List;
  */
 public interface Space extends Remote 
 {
-
     /**
-     *
+     * The port used by the RMI registry.
      */
     public static int PORT = 8001;
 
     /**
-     *
+     * The service name associated with this Remote interface.
      */
     public static String SERVICE_NAME = "Space";
 
     /**
      *
-     * @param task
-     * @return
+     * @param task to be computed.
+     * @return the task's execute method return value.
      * @throws RemoteException
      */
     ReturnValue compute( Task task ) throws RemoteException;

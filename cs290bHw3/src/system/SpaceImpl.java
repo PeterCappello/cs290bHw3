@@ -65,7 +65,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     /**
      * Compute a Task and return its Return.
      * To ensure that the correct Return is returned, this must be the only
- computation that the Space is serving.
+     * computation that the Space is serving.
      * 
      * @param task
      * @return the Task's Return object.
@@ -93,8 +93,6 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     {
         for ( Task task : taskList )
         {
-//            task.id( makeTaskId() );
-//            task.composeId( FINAL_RETURN_VALUE );
             readyTaskQ.add( task );
         }
     }
@@ -152,11 +150,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     
     public TaskCompose getCompose( int composeId ) { return waitingTaskMap.get( composeId ); }
             
-    public void putCompose( TaskCompose compose )
-    {
-        waitingTaskMap.put( compose.id(), compose );
-        assert waitingTaskMap.get( compose.id() ) != null;
-    }
+    public void putCompose( TaskCompose compose ) { waitingTaskMap.put( compose.id(), compose ); }
     
     public void putReadyTask( Task task ) { readyTaskQ.add( task ); }
     
@@ -197,6 +191,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
                     computerProxies.remove( computer );
                     Logger.getLogger( this.getClass().getName() )
                           .log( Level.WARNING, "Computer {0} failed.", computerId );
+                    break;
                 } 
                 catch ( InterruptedException ex ) 
                 { 
