@@ -26,6 +26,8 @@ import api.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An implementation of the Remote Computer interface.
@@ -33,7 +35,11 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ComputerImpl extends UnicastRemoteObject implements Computer
 {
-    public ComputerImpl() throws RemoteException {}
+    public ComputerImpl() throws RemoteException 
+    {
+        Logger.getLogger( ComputerImpl.class.getName() )
+              .log( Level.INFO, "Computer: started." );
+    }
             
     /**
      * Execute a Task.
@@ -54,11 +60,10 @@ public class ComputerImpl extends UnicastRemoteObject implements Computer
     public static void main( String[] args ) throws Exception
     {
         System.setSecurityManager( new SecurityManager() );
-        final String domainName = "localhost";
+        final String domainName = args[ 0 ] == null ? "localhost" : args[ 0 ];
         final String url = "rmi://" + domainName + ":" + Space.PORT + "/" + Space.SERVICE_NAME;
         final Space space = (Space) Naming.lookup( url );
         space.register( new ComputerImpl() );
-        System.out.println( "Computer running." );
     }
 
     /**
@@ -68,6 +73,8 @@ public class ComputerImpl extends UnicastRemoteObject implements Computer
     @Override
     public void exit() throws RemoteException 
     { 
-        System.out.println("Computer: exiting" ); /*System.exit( 0 ); */ 
+        Logger.getLogger( this.getClass().getName() )
+              .log( Level.INFO, "Computer: exiting." );
+        /*System.exit( 0 ); */ 
     }
 }
