@@ -185,7 +185,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
                     task = readyTaskQ.take();
                     processResult( task, execute( task ) );
                 }
-                catch ( RemoteException ignore )
+                catch ( RemoteException ex )
                 {
                     readyTaskQ.add( task );
                     computerProxies.remove( computer );
