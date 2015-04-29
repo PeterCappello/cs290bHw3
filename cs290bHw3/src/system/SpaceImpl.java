@@ -140,9 +140,9 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     private void unregister( final Task task, final Computer computer )
     {
         readyTaskQ.add( task );
-        ComputerProxy computerProxy = computerProxies.remove( computer );
         Logger.getLogger( this.getClass().getName() )
-              .log( Level.WARNING, "Computer {0} failed.", computerProxy.computerId );
+              .log( Level.WARNING, "Computer {0} failed.", 
+                    computerProxies.remove( computer ).computerId );
     }
     
     public static void main( final String[] args ) throws Exception
