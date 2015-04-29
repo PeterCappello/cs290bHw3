@@ -42,7 +42,7 @@ public class ReturnValue<T> extends Return
      * @param task whose return value is contained in this object
      * @param value the task execute method return value.
      */
-    public ReturnValue( Task task, T value ) 
+    public ReturnValue( final Task task, final T value ) 
     { 
         composeId = task.composeId();
         composeArgNum = task.composeArgNum();
@@ -61,7 +61,7 @@ public class ReturnValue<T> extends Return
      * @param space containing the compose task that is waiting for this value.
      */
     @Override
-    public void process( Task parentTask, SpaceImpl space )
+    public void process( final Task parentTask, final SpaceImpl space )
     {
         if ( composeId == SpaceImpl.FINAL_RETURN_VALUE )
         {

@@ -39,7 +39,7 @@ public class Tour  implements Comparable<Tour>
      * @param tour
      * @param cost
      */
-    public Tour( List<Integer> tour, double cost ) 
+    public Tour( final List<Integer> tour, final double cost ) 
     {
         this.tour = tour;
         this.cost = cost;
@@ -65,7 +65,7 @@ public class Tour  implements Comparable<Tour>
      *          1: otherwise.
      */
     @Override
-    public int compareTo( Tour tour )
+    public int compareTo( final Tour tour )
     { 
         return this.cost < tour.cost ? -1 : this.cost > tour.cost ? 1 : 0;
     }

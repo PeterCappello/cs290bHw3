@@ -39,7 +39,7 @@ public class IterationCounts
      * @param row
      * @param col
      */
-    public IterationCounts( Integer[][] counts, int row, int col ) 
+    public IterationCounts( final Integer[][] counts, final int row, final int col ) 
     {
         this.counts = counts;
         this.row = row;

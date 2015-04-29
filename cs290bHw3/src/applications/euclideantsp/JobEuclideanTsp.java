@@ -25,7 +25,6 @@ package applications.euclideantsp;
 
 import api.Job;
 import api.JobRunner;
-import api.ReturnValue;
 import api.Task;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -53,7 +52,7 @@ public class JobEuclideanTsp implements Job<Tour>
             
     public JobEuclideanTsp() {}
     
-    public static void main( String[] args ) throws Exception
+    public static void main( final String[] args ) throws Exception
     {
         final JobEuclideanTsp job = new JobEuclideanTsp();
         final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
@@ -61,7 +60,7 @@ public class JobEuclideanTsp implements Job<Tour>
     }
 
     @Override
-    public JLabel view( Tour cityList ) 
+    public JLabel view( final Tour cityList ) 
     {
         Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Tour: {0}", cityList.toString() );
         Integer[] tour = cityList.tour().toArray( new Integer[0] );

@@ -56,7 +56,7 @@ public abstract class TaskCompose<I> extends Task
      * put the now ready task in the space's ready task queue; remove it from
      * the waiting task map.
      */
-    synchronized public void arg( int argNum, I argValue, SpaceImpl space ) 
+    synchronized public void arg( final int argNum, final I argValue, final SpaceImpl space ) 
     { 
         assert numUnsetArgs.get() > 0 && numUnsetArgs.intValue() != 0 && argValue != null && args.get( argNum ) == null;
         args.set( argNum, argValue );
@@ -73,7 +73,7 @@ public abstract class TaskCompose<I> extends Task
      * Initialize the List of inputs to this task with null values.
      * @param numArgs
      */
-    synchronized public void numArgs( int numArgs )
+    synchronized public void numArgs( final int numArgs )
     {
         numUnsetArgs = new AtomicInteger( numArgs );
         args = Collections.synchronizedList( new ArrayList<>( numArgs ) );

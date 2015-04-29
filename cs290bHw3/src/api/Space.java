@@ -50,28 +50,28 @@ public interface Space extends Remote
      * @return the task's execute method return value.
      * @throws RemoteException
      */
-    ReturnValue compute( Task task ) throws RemoteException;
+    ReturnValue compute( final Task task ) throws RemoteException;
     
     /**
      *
      * @param task
      * @throws RemoteException
      */
-    void execute( Task task ) throws RemoteException;
+    void execute( final Task task ) throws RemoteException;
     
     /**
      *
      * @param taskList
      * @throws RemoteException
      */
-    void putAll ( List<Task> taskList ) throws RemoteException;
+    void putAll ( final List<Task> taskList ) throws RemoteException;
     
     /**
      *
      * @param computer
      * @throws RemoteException
      */
-    void register( Computer computer ) throws RemoteException;
+    void register( final Computer computer ) throws RemoteException;
 
     /**
      *

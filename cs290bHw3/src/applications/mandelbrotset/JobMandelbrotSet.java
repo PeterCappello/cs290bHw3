@@ -57,7 +57,7 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     public JobMandelbrotSet() {}
     
     @Override
-    public JLabel view( ResultValueMandelbrotSet returnValue ) 
+    public JLabel view( final ResultValueMandelbrotSet returnValue ) 
     {
         final Integer[][] counts = returnValue.counts();
         final Image image = new BufferedImage( N_PIXELS, N_PIXELS, BufferedImage.TYPE_INT_ARGB );
@@ -72,12 +72,12 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
         return new JLabel( imageIcon );
     }
     
-    private Color getColor( int iterationCount )
+    private Color getColor( final int iterationCount )
     {
         return iterationCount == ITERATION_LIMIT ? Color.BLACK : Color.WHITE;
     }
     
-    public static void main( String[] args ) throws Exception
+    public static void main( final String[] args ) throws Exception
     {
         final JobMandelbrotSet job = new JobMandelbrotSet();
         final JobRunner jobRunner = new JobRunner( job, TITLE, SPACE_DOMAIN_NAME );

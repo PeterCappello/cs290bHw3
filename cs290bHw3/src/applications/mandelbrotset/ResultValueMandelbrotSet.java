@@ -33,7 +33,7 @@ final public class ResultValueMandelbrotSet
     final private int blockRow;
     final private int blockCol;
     
-    public ResultValueMandelbrotSet( Integer[][] counts, int blockRow, int blockCol)
+    public ResultValueMandelbrotSet( final Integer[][] counts, final int blockRow, final int blockCol)
     {
         this.counts  = counts;
         this.blockRow = blockRow;

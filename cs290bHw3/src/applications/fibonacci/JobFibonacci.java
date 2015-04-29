@@ -43,12 +43,12 @@ public class JobFibonacci implements Job<Integer>
     public JobFibonacci() {}
     
     @Override
-    public JLabel view( Integer number ) 
+    public JLabel view( final Integer number ) 
     {
         return new JLabel( "    The " + N +  "th Fibonacci number is " + number + "    ", SwingConstants.CENTER ) ;
     }
     
-    public static void main( String[] args ) throws Exception
+    public static void main( final String[] args ) throws Exception
     {
         final JobFibonacci job = new JobFibonacci();
         final JobRunner jobRunner = new JobRunner( job, TITLE, "" );

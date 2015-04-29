@@ -67,7 +67,7 @@ abstract public class Task implements Serializable, Callable<Return>
      * @param composeArgNum set the number of the input (this task execute 
      * method return value) to the successor task.
      */
-    public void composeArgNum( int composeArgNum ) { this.composeArgNum = composeArgNum; }
+    public void composeArgNum( final int composeArgNum ) { this.composeArgNum = composeArgNum; }
     
     /**
      * Get the id of this task's successor task.
@@ -79,7 +79,7 @@ abstract public class Task implements Serializable, Callable<Return>
      * Set the id of this task's successor task.
      * @param composeId the id of this task's successor task.
      */
-    public void composeId( int composeId ) { this.composeId = composeId; }
+    public void composeId( final int composeId ) { this.composeId = composeId; }
     
     @Override
     public String toString()

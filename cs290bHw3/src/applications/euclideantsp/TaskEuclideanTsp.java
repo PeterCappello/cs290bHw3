@@ -67,7 +67,7 @@ public class TaskEuclideanTsp extends TaskDecompose<Tour>
      * @param partialTour - sequence of cities in partial tour.
      * @param unvisitedCities cities that are not yet part of the partial tour.
      */
-    public TaskEuclideanTsp( List<Integer> partialTour, List<Integer> unvisitedCities )
+    public TaskEuclideanTsp( final List<Integer> partialTour, final List<Integer> unvisitedCities )
     {
         this.partialTour = partialTour;
         this.unvisitedCities = unvisitedCities;

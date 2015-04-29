@@ -71,7 +71,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
      * @return the Task's Return object.
      */
     @Override
-    public ReturnValue compute( Task task )
+    public ReturnValue compute( final Task task )
     {
         execute( task );
         return take();
@@ -81,7 +81,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
      * @param task
      */
     @Override
-    synchronized public void execute( Task task ) 
+    synchronized public void execute( final Task task ) 
     { 
         task.id( makeTaskId() );
         task.composeId( FINAL_RETURN_VALUE );
@@ -108,7 +108,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
         catch ( InterruptedException exception ) 
         {
             Logger.getLogger( this.getClass().getName() )
-                  .log(Level.INFO, null, exception);
+                  .log( Level.INFO, null, exception );
         }
         assert false; // should never reach this point
         return null;
@@ -128,7 +128,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
      * @throws RemoteException
      */
     @Override
-    public void register( Computer computer ) throws RemoteException 
+    public void register( final Computer computer ) throws RemoteException 
     {
         final ComputerProxy computerproxy = new ComputerProxy( computer );
         computerProxies.put( computer, computerproxy );
@@ -137,7 +137,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
               .log(Level.INFO, "Computer {0} started.", computerproxy.computerId);
     }
     
-    private void unregister( Task task, Computer computer )
+    private void unregister( final Task task, final Computer computer )
     {
         readyTaskQ.add( task );
         ComputerProxy computerProxy = computerProxies.remove( computer );
@@ -145,36 +145,36 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
               .log( Level.WARNING, "Computer {0} failed.", computerProxy.computerId );
     }
     
-    public static void main( String[] args ) throws Exception
+    public static void main( final String[] args ) throws Exception
     {
         System.setSecurityManager( new SecurityManager() );
         LocateRegistry.createRegistry( Space.PORT )
                       .rebind( Space.SERVICE_NAME, new SpaceImpl() );
     }
 
-    private void processResult( Task parentTask, Return result ) { result.process( parentTask, this ); }
+    private void processResult( final Task parentTask, final Return result ) { result.process( parentTask, this ); }
     
     public int makeTaskId() { return taskIds.incrementAndGet(); }
     
-    public TaskCompose getCompose( int composeId ) { return waitingTaskMap.get( composeId ); }
+    public TaskCompose getCompose( final int composeId ) { return waitingTaskMap.get( composeId ); }
             
-    public void putCompose( TaskCompose compose ) { waitingTaskMap.put( compose.id(), compose ); }
+    public void putCompose( final TaskCompose compose ) { waitingTaskMap.put( compose.id(), compose ); }
     
-    public void putReadyTask( Task task ) { readyTaskQ.add( task ); }
+    public void putReadyTask( final Task task ) { readyTaskQ.add( task ); }
     
-    public void putResult( ReturnValue result ) { resultQ.add( result ); }
+    public void putResult( final ReturnValue result ) { resultQ.add( result ); }
     
-    public void removeWaitingTask( int composeId ) { waitingTaskMap.remove( composeId ); }
+    public void removeWaitingTask( final int composeId ) { waitingTaskMap.remove( composeId ); }
     
     private class ComputerProxy extends Thread implements Computer 
     {
         final private Computer computer;
         final private int computerId = computerIds.getAndIncrement();
 
-        ComputerProxy( Computer computer ) { this.computer = computer; }
+        ComputerProxy( final Computer computer ) { this.computer = computer; }
 
         @Override
-        public Return execute( Task task ) throws RemoteException
+        public Return execute( final Task task ) throws RemoteException
         { 
             return computer.execute( task );
         }

@@ -42,7 +42,7 @@ public class TaskFibonacci extends TaskDecompose<Integer>
      * 
      * @param n the Fibonacci number to be computed.
      */
-    public TaskFibonacci( int n ) 
+    public TaskFibonacci( final int n ) 
     { 
         if ( n < 0 )
         {
