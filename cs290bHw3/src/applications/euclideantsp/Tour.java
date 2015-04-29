@@ -45,10 +45,25 @@ public class Tour  implements Comparable<Tour>
         this.cost = cost;
     } 
  
+    /**
+     * 
+     * @return the sequence of cities in the tour.
+     */
     public List<Integer> tour() { return tour; }
     
+    /**
+     * 
+     * @return the cost of the tour.
+     */
     public double cost() { return cost; }
 
+    /**
+     * 
+     * @param tour a tour to compare to this.tour.
+     * @return -1: this.tour.cost is less than tour.cost; 
+     *          0: this.tour.cost == tour.cost;
+     *          1: otherwise.
+     */
     @Override
     public int compareTo( Tour tour )
     { 

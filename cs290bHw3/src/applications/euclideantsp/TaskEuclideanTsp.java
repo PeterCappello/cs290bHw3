@@ -61,13 +61,22 @@ public class TaskEuclideanTsp extends TaskDecompose<Tour>
     
     final private List<Integer> partialTour;
     final private List<Integer> unvisitedCities;
-            
+    
+    /**
+     * 
+     * @param partialTour - sequence of cities in partial tour.
+     * @param unvisitedCities cities that are not yet part of the partial tour.
+     */
     public TaskEuclideanTsp( List<Integer> partialTour, List<Integer> unvisitedCities )
     {
         this.partialTour = partialTour;
         this.unvisitedCities = unvisitedCities;
     }
     
+    /**
+     * 
+     * @return true if and only if the number of unvisited cities is less than 11.
+     */
     @Override
     public boolean isAtomic() { return unvisitedCities.size() <= MAX_UNVISITED_CITIES; }
     
@@ -105,6 +114,12 @@ public class TaskEuclideanTsp extends TaskDecompose<Tour>
         return new ReturnValue<>( this, new Tour( shortestTour, shortestTourDistance ) );
     }
 
+    /**
+     * 
+     * @return container that has a MinTour composition task and a list
+     * of TaskEuclideanTsp subtasks, each with a partial tour that has 1 fewer
+     * unvisited cities than this task.
+     */
     @Override
     public ReturnDecomposition divideAndConquer() 
     {

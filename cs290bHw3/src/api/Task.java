@@ -57,8 +57,8 @@ abstract public class Task implements Serializable, Callable<Return>
     
     /**
      * 
-     * @return the number of the input (this task execute method return value)
-     * to the successor task.
+     * @return successor task input number of this task's execute method return 
+     * value.
      */
     public int  composeArgNum() { return composeArgNum; }
 
