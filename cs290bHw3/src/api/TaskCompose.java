@@ -51,9 +51,8 @@ public abstract class TaskCompose<I> extends Task
      * Set one of this task's inputs.
      * @param argNum the index of this input.
      * @param argValue the value of this input.
-     * @param space if this is the last input this task is waiting for,
-     * put the now ready task in the space's ready task queue; remove it from
-     * the waiting task map.
+     * @param space if this is the last input this task is waiting for, put
+     * the task in the space's ready task queue; remove it from the waiting task map.
      */
     synchronized public void arg( final int argNum, final I argValue, final SpaceImpl space ) 
     { 
