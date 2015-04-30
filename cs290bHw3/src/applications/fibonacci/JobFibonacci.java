@@ -50,7 +50,7 @@ public class JobFibonacci implements Job<Integer>
     
     public static void main( final String[] args ) throws Exception
     {
-        final JobFibonacci job = new JobFibonacci();
+        final Job job = new JobFibonacci();
         final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
         jobRunner.run( TASK );
     }

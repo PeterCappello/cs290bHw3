@@ -43,18 +43,17 @@ import javax.swing.JLabel;
  */
 public class JobEuclideanTsp implements Job<Tour>
 {
+    // Configure Job
     static final private int NUM_PIXALS = 600;
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
-    
-    // Job configuration
     static final private String TITLE = "Euclidean TSP";
-    static final private Task TASK = new TaskEuclideanTsp( new ArrayList<>(), unvisitedCities() );
+    static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), unvisitedCities() );
             
     public JobEuclideanTsp() {}
     
     public static void main( final String[] args ) throws Exception
     {
-        final JobEuclideanTsp job = new JobEuclideanTsp();
+        final Job job = new JobEuclideanTsp();
         final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
         jobRunner.run( TASK );
     }
@@ -130,10 +129,17 @@ public class JobEuclideanTsp implements Job<Tour>
         return new JLabel( imageIcon );
     }
     
+    static private List<Integer> initialPartialTour()
+    {
+        List<Integer> partialTour = new ArrayList<>();
+        partialTour.add( 0 );
+        return partialTour;
+    }
+    
     static private List<Integer> unvisitedCities()
     {
         final List<Integer> unvisitedCities = new ArrayList<>();
-        for ( int city = 0; city < CITIES.length; city++ )
+        for ( int city = 1; city < CITIES.length; city++ )
         {
             unvisitedCities.add( city );
         }
