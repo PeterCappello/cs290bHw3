@@ -24,7 +24,7 @@
 package applications.fibonacci;
 import api.Job;
 import api.JobRunner;
-import api.Task;
+import system.Task;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 

@@ -24,7 +24,7 @@
 package applications.mandelbrotset;
 import api.ReturnDecomposition;
 import api.ReturnValue;
-import api.Task;
+import system.Task;
 import api.TaskDecompose;
 import static applications.mandelbrotset.JobMandelbrotSet.BLOCK_SIZE;
 import static applications.mandelbrotset.JobMandelbrotSet.EDGE_LENGTH;

@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 package api;
+import system.Task;
 import system.Return;
 import system.SpaceImpl;
 

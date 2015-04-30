@@ -25,7 +25,7 @@ package applications.fibonacci;
 
 import api.ReturnDecomposition;
 import api.ReturnValue;
-import api.Task;
+import system.Task;
 import api.TaskDecompose;
 import java.util.ArrayList;
 import java.util.List;

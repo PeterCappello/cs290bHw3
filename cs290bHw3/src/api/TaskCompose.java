@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 package api;
+import system.Task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

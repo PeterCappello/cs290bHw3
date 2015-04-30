@@ -24,7 +24,7 @@
 package applications.mandelbrotset;
 import api.Job;
 import api.JobRunner;
-import api.Task;
+import system.Task;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;

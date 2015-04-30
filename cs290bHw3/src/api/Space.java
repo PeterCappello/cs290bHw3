@@ -23,6 +23,7 @@
  */
 package api;
 
+import system.Task;
 import system.Computer;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
