@@ -47,12 +47,11 @@ public class JobEuclideanTsp implements Job<Tour>
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
     static final private String TITLE = "Euclidean TSP";
     static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
+    static final private Job job = new JobEuclideanTsp();
                 
     public static void main( final String[] args ) throws Exception
     {
-        final Job job = new JobEuclideanTsp();
-        final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
-        jobRunner.run( TASK );
+        new JobRunner( job, TITLE, "" ).run( TASK );
     }
 
     @Override
