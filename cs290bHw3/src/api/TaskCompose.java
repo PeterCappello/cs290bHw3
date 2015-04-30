@@ -25,7 +25,6 @@ package api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import system.SpaceImpl;
 
 /**
@@ -36,7 +35,7 @@ import system.SpaceImpl;
  */
 public abstract class TaskCompose<I> extends Task
 {
-    private AtomicInteger numUnsetArgs;
+    private int numUnsetArgs;
     private List<I> args;
     
     @Override
@@ -58,11 +57,9 @@ public abstract class TaskCompose<I> extends Task
      */
     synchronized public void arg( final int argNum, final I argValue, final SpaceImpl space ) 
     { 
-        assert numUnsetArgs.get() > 0 && numUnsetArgs.intValue() != 0 && argValue != null && args.get( argNum ) == null;
+        assert numUnsetArgs > 0 && argValue != null && args.get( argNum ) == null;
         args.set( argNum, argValue );
-        assert args.get( argNum ) == argValue;
-        numUnsetArgs.getAndDecrement();
-        if ( numUnsetArgs.intValue() == 0 )
+        if ( --numUnsetArgs == 0 )
         {
             space.putReadyTask( this );
             space.removeWaitingTask( id() );
@@ -75,13 +72,11 @@ public abstract class TaskCompose<I> extends Task
      */
     synchronized public void numArgs( final int numArgs )
     {
-        numUnsetArgs = new AtomicInteger( numArgs );
+        numUnsetArgs = numArgs;
         args = Collections.synchronizedList( new ArrayList<>( numArgs ) );
         for ( int i = 0; i < numArgs; i++ )
         {
-            assert args.size() == i;
             args.add( null );
-            assert args.get( i ) == null;
         }
         assert args.size() == numArgs;
     }
