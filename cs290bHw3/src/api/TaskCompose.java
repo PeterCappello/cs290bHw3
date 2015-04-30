@@ -66,7 +66,7 @@ public abstract class TaskCompose<I> extends Task
     }
     
     /**
-     * Initialize the List of inputs to this task with null values.
+     * Initialize this task's List of inputs to null values.
      * @param numArgs
      */
     synchronized public void numArgs( final int numArgs )
