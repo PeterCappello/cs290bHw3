@@ -114,12 +114,12 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
         return null;
     }
 
-//    @Override
-//    public void exit() throws RemoteException 
-//    {
-//        computerProxies.values().forEach( proxy -> proxy.exit() );
-//        System.exit( 0 );
-//    }
+    @Override
+    public void exit() throws RemoteException 
+    {
+        computerProxies.values().forEach( proxy -> proxy.exit() );
+        System.exit( 0 );
+    }
 
     /**
      * Register Computer with Space.  
