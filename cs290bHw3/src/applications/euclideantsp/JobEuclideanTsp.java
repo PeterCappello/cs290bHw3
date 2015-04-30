@@ -47,7 +47,7 @@ public class JobEuclideanTsp implements Job<Tour>
     static final private int NUM_PIXALS = 600;
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
     static final private String TITLE = "Euclidean TSP";
-    static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), unvisitedCities() );
+    static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
             
     public JobEuclideanTsp() {}
     
@@ -136,7 +136,7 @@ public class JobEuclideanTsp implements Job<Tour>
         return partialTour;
     }
     
-    static private List<Integer> unvisitedCities()
+    static private List<Integer> initialUnvisitedCities()
     {
         final List<Integer> unvisitedCities = new ArrayList<>();
         for ( int city = 1; city < CITIES.length; city++ )
