@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 package applications.mandelbrotset;
-
 import api.Job;
 import api.JobRunner;
 import api.Task;
@@ -30,7 +29,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -40,21 +38,23 @@ import javax.swing.JLabel;
  */
 public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
 {
+    // Configure Job 
     static public final double LOWER_LEFT_X = -0.7510975859375;
     static public final double LOWER_LEFT_Y = 0.1315680625;
     static public final double EDGE_LENGTH = 0.01611;
     static public final int N_PIXELS = 1024;
     static public final int ITERATION_LIMIT = 512;
     static public final int BLOCK_SIZE = 256;
-    
-    // Job configuration
     static final private String TITLE = "Mandelbrot Set Visualization";
     static final private String SPACE_DOMAIN_NAME = "";
     static final private Task TASK = new TaskMandelbrotSet( LOWER_LEFT_X, LOWER_LEFT_Y, EDGE_LENGTH , N_PIXELS, ITERATION_LIMIT, 0, 0 );
-    
-           private List<Task> taskList;
-    
-    public JobMandelbrotSet() {}
+          
+    public static void main( final String[] args ) throws Exception
+    {
+        final Job job = new JobMandelbrotSet();
+        final JobRunner jobRunner = new JobRunner( job, TITLE, SPACE_DOMAIN_NAME );
+        jobRunner.run( TASK );
+    }
     
     @Override
     public JLabel view( final ResultValueMandelbrotSet returnValue ) 
@@ -75,12 +75,5 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     private Color getColor( final int iterationCount )
     {
         return iterationCount == ITERATION_LIMIT ? Color.BLACK : Color.WHITE;
-    }
-    
-    public static void main( final String[] args ) throws Exception
-    {
-        final JobMandelbrotSet job = new JobMandelbrotSet();
-        final JobRunner jobRunner = new JobRunner( job, TITLE, SPACE_DOMAIN_NAME );
-        jobRunner.run( TASK );
     }
 }

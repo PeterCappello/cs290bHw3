@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 package applications.euclideantsp;
-
 import api.Job;
 import api.JobRunner;
 import api.Task;
@@ -48,9 +47,7 @@ public class JobEuclideanTsp implements Job<Tour>
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
     static final private String TITLE = "Euclidean TSP";
     static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
-            
-    public JobEuclideanTsp() {}
-    
+                
     public static void main( final String[] args ) throws Exception
     {
         final Job job = new JobEuclideanTsp();

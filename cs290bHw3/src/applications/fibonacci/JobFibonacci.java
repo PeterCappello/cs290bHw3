@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 package applications.fibonacci;
-
 import api.Job;
 import api.JobRunner;
 import api.Task;
@@ -35,23 +34,21 @@ import javax.swing.SwingConstants;
  */
 public class JobFibonacci implements Job<Integer>
 {
-    // configure application
+    // Configure Job
     static private final int    N     = 16; // F(16) = 987
     static private final Task   TASK  = new TaskFibonacci( N );
     static private final String TITLE = "Fibonacci number";
-        
-    public JobFibonacci() {}
-    
-    @Override
-    public JLabel view( final Integer number ) 
-    {
-        return new JLabel( "    The " + N +  "th Fibonacci number is " + number + "    ", SwingConstants.CENTER ) ;
-    }
-    
+         
     public static void main( final String[] args ) throws Exception
     {
         final Job job = new JobFibonacci();
         final JobRunner jobRunner = new JobRunner( job, TITLE, "" );
         jobRunner.run( TASK );
+    }
+    
+    @Override
+    public JLabel view( final Integer number ) 
+    {
+        return new JLabel( "    The " + N +  "th Fibonacci number is " + number + "    ", SwingConstants.CENTER ) ;
     }
 }
