@@ -42,6 +42,11 @@ import javax.swing.JLabel;
  */
 public class JobEuclideanTsp implements Job<Tour>
 {
+    public static void main( final String[] args ) throws Exception
+    {
+        new JobRunner( job, TITLE, "" ).run( TASK );
+    }
+    
     // Configure Job
     static final private int NUM_PIXALS = 600;
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
@@ -49,11 +54,6 @@ public class JobEuclideanTsp implements Job<Tour>
     static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
     static final private Job job = new JobEuclideanTsp();
                 
-    public static void main( final String[] args ) throws Exception
-    {
-        new JobRunner( job, TITLE, "" ).run( TASK );
-    }
-
     @Override
     public JLabel view( final Tour cityList ) 
     {
