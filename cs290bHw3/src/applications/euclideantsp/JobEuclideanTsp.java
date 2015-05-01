@@ -44,7 +44,7 @@ public class JobEuclideanTsp implements Job<Tour>
 {
     public static void main( final String[] args ) throws Exception
     {
-        new JobRunner( job, TITLE, "" ).run( TASK );
+        new JobRunner( job, TITLE, args ).run( TASK );
     }
     
     // Configure Job

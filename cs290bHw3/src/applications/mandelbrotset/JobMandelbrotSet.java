@@ -52,7 +52,7 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     public static void main( final String[] args ) throws Exception
     {
         final Job job = new JobMandelbrotSet();
-        final JobRunner jobRunner = new JobRunner( job, TITLE, SPACE_DOMAIN_NAME );
+        final JobRunner jobRunner = new JobRunner( job, TITLE, args );
         jobRunner.run( TASK );
     }
     

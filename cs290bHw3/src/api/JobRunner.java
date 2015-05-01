@@ -53,20 +53,20 @@ public class JobRunner<T> extends JFrame
      *
      * @param job the Job to be run.
      * @param title the String to be displaced on the JPanel containing the JLabel.
-     * @param domainName of the Space to be used.
+     * @param args command line args
      * @throws RemoteException occurs if there is a communication problem or
      * the remote service is not responding
      * @throws NotBoundException There is no Space service bound in the RMI registry.
      * @throws MalformedURLException the URL provided for the Space RMI registry is malformed.
      */
-    public JobRunner( final Job job, String title, String domainName ) 
+    public JobRunner( final Job job, String title, String[] args ) 
            throws RemoteException, NotBoundException, MalformedURLException
     { 
         System.setSecurityManager( new SecurityManager() );
         setTitle( title );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.job = job;
-        if ( domainName.isEmpty() )
+        if ( args.length == 0 )
         {
             space = new SpaceImpl();
             for ( int i = 0; i < Runtime.getRuntime().availableProcessors(); i++ )
@@ -77,7 +77,7 @@ public class JobRunner<T> extends JFrame
         else
         {
             final String url = "rmi://" 
-                             + domainName 
+                             + args[ 0 ] 
                              + ":" 
                              + Space.PORT 
                              + "/" 
