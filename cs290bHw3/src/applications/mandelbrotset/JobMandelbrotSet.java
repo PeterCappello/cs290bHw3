@@ -48,12 +48,10 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     static final private String TITLE = "Mandelbrot Set Visualization";
     static final private String SPACE_DOMAIN_NAME = "";
     static final private Task TASK = new TaskMandelbrotSet( LOWER_LEFT_X, LOWER_LEFT_Y, EDGE_LENGTH , N_PIXELS, ITERATION_LIMIT, 0, 0 );
-          
+    static final private Job JOB = new JobMandelbrotSet();
     public static void main( final String[] args ) throws Exception
     {
-        final Job job = new JobMandelbrotSet();
-        final JobRunner jobRunner = new JobRunner( job, TITLE, args );
-        jobRunner.run( TASK );
+       new JobRunner( JOB, TITLE, args ).run( TASK );
     }
     
     @Override
