@@ -51,8 +51,8 @@ public class TaskMandelbrotSet extends TaskDecompose<ResultValueMandelbrotSet>
     final private int blockCol;
             
     public TaskMandelbrotSet( final double lowerLeftX, final double lowerLeftY, 
-            final double edgeLength, final int numPixels, final int iterationLimit, 
-            final int blockRow, final int blockCol )
+            final double edgeLength, final int numPixels, 
+            final int iterationLimit, final int blockRow, final int blockCol )
     {
         this.lowerLeftX = lowerLeftX;
         this.lowerLeftY = lowerLeftY;

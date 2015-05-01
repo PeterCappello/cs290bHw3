@@ -47,11 +47,10 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
 {
     static final public int FINAL_RETURN_VALUE = -1;
     static final private AtomicInteger computerIds = new AtomicInteger();
-           final private AtomicInteger taskIds     = new AtomicInteger();
-    
-    private final BlockingQueue<Task>     readyTaskQ = new LinkedBlockingQueue<>();
-    private final BlockingQueue<ReturnValue> resultQ = new LinkedBlockingQueue<>();
-
+           
+    final private AtomicInteger taskIds     = new AtomicInteger();
+    final private BlockingQueue<Task>     readyTaskQ = new LinkedBlockingQueue<>();
+    final private BlockingQueue<ReturnValue> resultQ = new LinkedBlockingQueue<>();
     private final Map<Computer,ComputerProxy> computerProxies = Collections.synchronizedMap( new HashMap<>() );
     private final Map<Integer, TaskCompose>   waitingTaskMap  = Collections.synchronizedMap( new HashMap<>() );
         
@@ -133,7 +132,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
         computerProxies.put( computer, computerproxy );
         computerproxy.start();
         Logger.getLogger( this.getClass().getName() )
-              .log(Level.INFO, "Computer {0} started.", computerproxy.computerId);
+              .log( Level.INFO, "Computer {0} started.", computerproxy.computerId );
     }
     
     private void unregister( final Task task, final Computer computer )

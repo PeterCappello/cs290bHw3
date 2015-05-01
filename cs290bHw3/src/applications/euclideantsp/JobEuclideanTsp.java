@@ -44,7 +44,7 @@ public class JobEuclideanTsp implements Job<Tour>
 {
     public static void main( final String[] args ) throws Exception
     {
-        new JobRunner( job, TITLE, args ).run( TASK );
+        new JobRunner( JOB, TITLE, args ).run( TASK );
     }
     
     // Configure Job
@@ -52,7 +52,7 @@ public class JobEuclideanTsp implements Job<Tour>
     static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
     static final private String TITLE = "Euclidean TSP";
     static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
-    static final private Job job = new JobEuclideanTsp();
+    static final private Job JOB = new JobEuclideanTsp();
                 
     @Override
     public JLabel view( final Tour cityList ) 

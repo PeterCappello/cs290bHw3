@@ -60,7 +60,7 @@ public class ComputerImpl extends UnicastRemoteObject implements Computer
     public static void main( String[] args ) throws Exception
     {
         System.setSecurityManager( new SecurityManager() );
-        final String domainName = args[ 0 ] == null ? "localhost" : args[ 0 ];
+        final String domainName = args.length == 0 ? "localhost" : args[ 0 ];
         final String url = "rmi://" + domainName + ":" + Space.PORT + "/" + Space.SERVICE_NAME;
         final Space space = (Space) Naming.lookup( url );
         space.register( new ComputerImpl() );
