@@ -38,6 +38,11 @@ import javax.swing.JLabel;
  */
 public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
 {
+    public static void main( final String[] args ) throws Exception
+    {
+       new JobRunner( JOB, TITLE, args ).run( TASK );
+    }
+    
     // Configure Job 
     static public final double LOWER_LEFT_X = -0.7510975859375;
     static public final double LOWER_LEFT_Y = 0.1315680625;
@@ -49,10 +54,6 @@ public class JobMandelbrotSet implements Job<ResultValueMandelbrotSet>
     static final private String SPACE_DOMAIN_NAME = "";
     static final private Task TASK = new TaskMandelbrotSet( LOWER_LEFT_X, LOWER_LEFT_Y, EDGE_LENGTH , N_PIXELS, ITERATION_LIMIT, 0, 0 );
     static final private Job JOB = new JobMandelbrotSet();
-    public static void main( final String[] args ) throws Exception
-    {
-       new JobRunner( JOB, TITLE, args ).run( TASK );
-    }
     
     @Override
     public JLabel view( final ResultValueMandelbrotSet returnValue ) 
