@@ -33,6 +33,7 @@ import static applications.mandelbrotset.JobMandelbrotSet.LOWER_LEFT_X;
 import static applications.mandelbrotset.JobMandelbrotSet.LOWER_LEFT_Y;
 import java.util.LinkedList;
 import java.util.List;
+import util.Complex;
 
 /**
  *
@@ -74,7 +75,8 @@ public class TaskMandelbrotSet extends TaskDecompose<ResultValueMandelbrotSet>
         for ( int row = 0; row < numPixels; row++ )
             for ( int col = 0; col < numPixels; col++ )
             {
-                counts[row][col] = getIterationCount( row, col, delta );
+                final Complex c = new Complex( lowerLeftX + row * delta, lowerLeftY + col * delta );
+                counts[row][col] = getIterationCount( c );
             }
         return new ReturnValue<>( this, new ResultValueMandelbrotSet( counts, blockRow, blockCol ) );
     }
@@ -105,16 +107,12 @@ public class TaskMandelbrotSet extends TaskDecompose<ResultValueMandelbrotSet>
                 getClass(), lowerLeftX, lowerLeftY, edgeLength, numPixels, iterationLimit, blockRow, blockCol );
     }
     
-    private int getIterationCount( final int row, final int col, final double delta )
+    private int getIterationCount( Complex c ) 
     {
-        final double x0 = lowerLeftX + row * delta;
-        final double y0 = lowerLeftY + col * delta;
         int iteration = 0;
-        for ( double x = x0, y = y0; x*x + y*y <= 4.0 && iteration < iterationLimit; iteration++ )
+        for ( Complex z = new Complex( c ); z.sizeSquared() <= 4.0 && iteration < iterationLimit; iteration++ ) 
         {
-            double xtemp = x*x - y*y + x0;
-            y = 2*x*y + y0;
-            x = xtemp;
+            z.square().add( c );
         }
         return iteration;
     }
