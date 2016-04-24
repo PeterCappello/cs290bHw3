@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2016 peter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Peter Cappello
  */
-public class Tour  implements Comparable<Tour>
+public class Tour
 {
     final private List<Integer> tour;
     final private double cost;
@@ -56,17 +56,4 @@ public class Tour  implements Comparable<Tour>
      * @return the cost of the tour.
      */
     public double cost() { return cost; }
-
-    /**
-     * 
-     * @param tour a tour to compare to this.tour.
-     * @return -1: this.tour.cost is less than tour.cost; 
-     *          0: this.tour.cost == tour.cost;
-     *          1: otherwise.
-     */
-    @Override
-    public int compareTo( final Tour tour )
-    { 
-        return this.cost < tour.cost ? -1 : this.cost > tour.cost ? 1 : 0;
-    }
 }

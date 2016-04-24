@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2016 peter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,7 @@ public class JobRunner<T> extends JFrame
      *
      * @param job the Job to be run.
      * @param title the String to be displaced on the JPanel containing the JLabel.
-     * @param args command line args
+     * @param args command line args: args[0]: domain name or IP address of server.
      * @throws RemoteException occurs if there is a communication problem or
      * the remote service is not responding
      * @throws NotBoundException There is no Space service bound in the RMI registry.

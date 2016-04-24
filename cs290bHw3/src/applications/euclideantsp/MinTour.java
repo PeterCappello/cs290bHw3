@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Peter Cappello.
+ * Copyright 2016 Peter Cappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,15 @@ package applications.euclideantsp;
 
 import api.ReturnValue;
 import api.TaskCompose;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 /**
  *
  * @author Peter Cappello
  */
-public class MinTour extends TaskCompose<Tour>
+public class MinTour extends TaskCompose<Tour> implements Comparator<Tour>
 {
     /**
      * Find the minimum distance tour of its input tours.
@@ -39,14 +42,19 @@ public class MinTour extends TaskCompose<Tour>
     @Override
     public ReturnValue call() 
     {
-        Tour shortestTour = args().remove( 0 );
-        for ( Tour tour : args() ) 
-        {
-            if ( tour.compareTo( shortestTour ) < 0 )
-            {
-                shortestTour = tour;
-            }
-        }
-        return new ReturnValue<>( this, shortestTour );
+        return new ReturnValue<>( this, args().stream().min( this ).get() );
+    }
+    /**
+     * Compare the cost of thisTour to thatTour.
+     * @param thisTour
+     * @param thatTour
+     * @return -1: thisTour is shorter than thatTour
+     *          1: thatTour is shorter than thisTour
+     *          0: otherwise
+     */
+    @Override
+    public int compare( Tour thisTour, Tour thatTour ) 
+    {
+        return thisTour.cost() < thatTour.cost() ? -1 : thisTour.cost() > thatTour.cost() ? 1 : 0;    
     }
 }

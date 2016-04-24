@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Peter Cappello.
+ * Copyright 2016 Peter Cappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

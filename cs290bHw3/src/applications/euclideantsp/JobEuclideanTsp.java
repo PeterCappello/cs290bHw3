@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 petercappello.
+ * Copyright 2016 petercappello.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,8 @@ public class JobEuclideanTsp implements Job<Tour>
     @Override
     public JLabel view( final Tour cityList ) 
     {
-        Logger.getLogger( this.getClass().getCanonicalName() ).log( Level.INFO, "Tour: {0}", cityList.toString() );
+        Logger.getLogger( this.getClass().getCanonicalName() )
+              .log( Level.INFO, "Tour: {0}", cityList.toString() );
         Integer[] tour = cityList.tour().toArray( new Integer[0] );
 
         // display the graph graphically, as it were
@@ -90,6 +91,7 @@ public class JobEuclideanTsp implements Job<Tour>
 
         final int margin = 10;
         final int field = NUM_PIXALS - 2*margin;
+        
         // draw edges
         graphics.setColor( Color.BLUE );
         int x1, y1, x2, y2;
