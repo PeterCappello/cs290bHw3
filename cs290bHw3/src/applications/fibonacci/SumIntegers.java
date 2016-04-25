@@ -39,6 +39,7 @@ public class SumIntegers extends TaskCompose<Integer>
     @Override
     public ReturnValue call() 
     {
-        return new ReturnValue<>( this, args().get( 0 ) + args().get( 1 ) );
+//        return new ReturnValue<>( this, args().get( 0 ) + args().get( 1 ) );
+        return new ReturnValue<>( this, args().stream().mapToInt( n -> n ).sum() );
     }
 }
