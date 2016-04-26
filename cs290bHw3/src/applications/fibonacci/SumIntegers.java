@@ -27,14 +27,14 @@ import api.ReturnValue;
 import api.TaskCompose;
 
 /**
- *
+ * 
  * @author Peter Cappello
  */
 public class SumIntegers extends TaskCompose<Integer>
 {    
     /**
-     * 
-     * @return the sum of its 2 inputs.
+     * Sums a List of Integer objects.
+     * @return the sum of its Integer inputs.
      */
     @Override
     public ReturnValue call() 
