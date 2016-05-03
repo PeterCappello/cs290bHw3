@@ -45,8 +45,7 @@ import java.util.logging.Logger;
  */
 public class SpaceImpl extends UnicastRemoteObject implements Space
 {
-    static final public int FINAL_RETURN_VALUE = -1;
-    static final private AtomicInteger computerIds = new AtomicInteger();
+    static final private AtomicInteger COMPUTER_IDS = new AtomicInteger();
            
     final private AtomicInteger taskIds     = new AtomicInteger();
     final private BlockingQueue<Task>     readyTaskQ = new LinkedBlockingQueue<>();
@@ -82,7 +81,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     synchronized public void execute( final Task task ) 
     { 
         task.id( makeTaskId() );
-        task.composeId( FINAL_RETURN_VALUE );
+        task.composeId( ReturnValue.FINAL_RETURN_VALUE );
         readyTaskQ.add( task );
     }
     
@@ -158,16 +157,16 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
             
     public void putCompose( final TaskCompose compose ) { waitingTaskMap.put( compose.id(), compose ); }
     
-    public void putReadyTask( final Task task ) { readyTaskQ.add( task ); }
+    public void addReadyTask( final Task task ) { readyTaskQ.add( task ); }
     
-    public void putResult( final ReturnValue result ) { resultQ.add( result ); }
+    public void addResult( final ReturnValue result ) { resultQ.add( result ); }
     
     public void removeWaitingTask( final int composeId ) { waitingTaskMap.remove( composeId ); }
     
     private class ComputerProxy extends Thread implements Computer 
     {
         final private Computer computer;
-        final private int computerId = computerIds.getAndIncrement();
+        final private int computerId = COMPUTER_IDS.getAndIncrement();
 
         ComputerProxy( final Computer computer ) { this.computer = computer; }
 

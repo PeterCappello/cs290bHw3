@@ -34,6 +34,8 @@ import system.SpaceImpl;
  */
 public class ReturnValue<T> extends Return
 {    
+    static final public int FINAL_RETURN_VALUE = -1;
+    
     final private int composeId;
     final private int composeArgNum;
     final private T value;
@@ -64,9 +66,9 @@ public class ReturnValue<T> extends Return
     @Override
     public void process( final Task parentTask, final SpaceImpl space )
     {
-        if ( composeId == SpaceImpl.FINAL_RETURN_VALUE )
+        if ( composeId == FINAL_RETURN_VALUE )
         {
-            space.putResult( this );
+            space.addResult( this );
             return;
         }
         TaskCompose taskCompose = space.getCompose( composeId );

@@ -61,7 +61,7 @@ public abstract class TaskCompose<I> extends Task
         args.set( argNum, argValue );
         if ( --numUnsetArgs == 0 )
         {
-            space.putReadyTask( this );
+            space.addReadyTask( this );
             space.removeWaitingTask( id() );
         }
     }

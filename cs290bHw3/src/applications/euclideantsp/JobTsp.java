@@ -40,7 +40,7 @@ import javax.swing.JLabel;
  *
  * @author Peter Cappello
  */
-public class JobEuclideanTsp implements Job<Tour>
+public class JobTsp implements Job<Tour>
 {
     public static void main( final String[] args ) throws Exception
     {
@@ -49,10 +49,10 @@ public class JobEuclideanTsp implements Job<Tour>
     
     // Configure Job
     static final private int NUM_PIXALS = 600;
-    static final public  double[][] CITIES = TaskEuclideanTsp.CITIES;
+    static final public  double[][] CITIES = TaskTsp.CITIES;
     static final private String TITLE = "Euclidean TSP";
-    static final private Task TASK = new TaskEuclideanTsp( initialPartialTour(), initialUnvisitedCities() );
-    static final private Job JOB = new JobEuclideanTsp();
+    static final private Task TASK = new TaskTsp( initialPartialTour(), initialUnvisitedCities() );
+    static final private Job JOB = new JobTsp();
                 
     @Override
     public JLabel view( final Tour cityList ) 

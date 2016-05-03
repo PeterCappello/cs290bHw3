@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 peter.
+ * Copyright 2016 peter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import util.PermutationEnumerator;
  * followed by city secondCity.
  * @author Peter Cappello
  */
-public class TaskEuclideanTsp extends TaskDecompose<Tour>
+public class TaskTsp extends TaskDecompose<Tour>
 { 
     static final public double[][] CITIES =
     {
@@ -67,7 +67,7 @@ public class TaskEuclideanTsp extends TaskDecompose<Tour>
      * @param partialTour - sequence of cities in partial tour.
      * @param unvisitedCities cities that are not yet part of the partial tour.
      */
-    public TaskEuclideanTsp( final List<Integer> partialTour, final List<Integer> unvisitedCities )
+    public TaskTsp( final List<Integer> partialTour, final List<Integer> unvisitedCities )
     {
         this.partialTour = partialTour;
         this.unvisitedCities = unvisitedCities;
@@ -117,21 +117,21 @@ public class TaskEuclideanTsp extends TaskDecompose<Tour>
     /**
      * 
      * @return container that has a MinTour composition task and a list
-     * of TaskEuclideanTsp subtasks, each with a partial tour that has 1 fewer
+     * of TaskTsp subtasks, each with a partial tour that has 1 fewer
      * unvisited cities than this task.
      */
     @Override
     public ReturnDecomposition divideAndConquer() 
     {
         final List<Task> subtasks = new  LinkedList<>();
-        for ( Integer unvisitedCity : unvisitedCities )
+        unvisitedCities.forEach( unvisitedCity -> 
         {
-            List<Integer> subtaskPartialTour = new ArrayList<>( partialTour );
+            final List<Integer> subtaskPartialTour = new ArrayList<>( partialTour );
             List<Integer> subtaskUnvisitedCities = new ArrayList<>( unvisitedCities );
             subtaskUnvisitedCities.remove( unvisitedCity );
             subtaskPartialTour.add( unvisitedCity ); // extend tour with this city.
-            subtasks.add( new TaskEuclideanTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
-        }
+            subtasks.add(new TaskTsp( subtaskPartialTour, subtaskUnvisitedCities ) );
+        } );
         return new ReturnDecomposition( new MinTour(), subtasks );
     }
     
