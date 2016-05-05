@@ -72,6 +72,7 @@ public abstract class TaskCompose<I> extends Task
      */
     synchronized public void numArgs( final int numArgs )
     {
+        assert numArgs >= 0;
         numUnsetArgs = numArgs;
         args = Collections.synchronizedList( new ArrayList<>( numArgs ) );
         for ( int i = 0; i < numArgs; i++ )
