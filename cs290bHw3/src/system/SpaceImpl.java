@@ -88,10 +88,7 @@ public class SpaceImpl extends UnicastRemoteObject implements Space
     @Override
     synchronized public void putAll( final List<Task> taskList )
     {
-        for ( Task task : taskList )
-        {
-            readyTaskQ.add( task );
-        }
+        taskList.forEach( task -> readyTaskQ.add( task ) );
     }
 
     /**
