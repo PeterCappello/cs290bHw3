@@ -68,8 +68,9 @@ public class JobRunner<T> extends JFrame
         this.job = job;
         if ( args.length == 0 )
         {
+            final int numProcessors = Runtime.getRuntime().availableProcessors();
             space = new SpaceImpl();
-            for ( int i = 0; i < Runtime.getRuntime().availableProcessors(); i++ )
+            for ( int i = 0; i < numProcessors; i++ )
             {
                 space.register( new ComputerImpl() );
             }
